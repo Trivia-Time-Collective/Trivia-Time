@@ -7,15 +7,17 @@ const Game = () => {
   const [answer, setAnswer] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [roundCounter, setRoundCounter] = useState(0);
+  const [score, setScore] = useState(0);
 
   const checkAnswer = (buttonValue) => {
     console.log(buttonValue);
-    if (roundCounter < 9) {
-      setRoundCounter(roundCounter +1)
+    if (buttonValue === answer) {
+      setScore(score + 1);
     }
-  } 
-
-
+    if (roundCounter < 9) {
+      setRoundCounter(roundCounter + 1);
+    }
+  };
 
   useEffect(() => {
     axios({
@@ -43,23 +45,22 @@ const Game = () => {
       setChoices([...questionsArray[roundCounter].incorrect_answers, questionsArray[roundCounter].correct_answer]);
       setAnswer(questionsArray[roundCounter].correct_answer);
     }
-  }, [roundCounter, isLoaded])
+  }, [roundCounter, isLoaded, questionsArray]);
 
-  return !isLoaded?(
+  return !isLoaded ? (
     <div>
       <h2>Loading...</h2>
     </div>
-  ):(
+  ) : (
     <div>
-      <h3>{questionsArray[roundCounter].question}</h3>
-      {choices.map( (choice, index) => {
+      <p>Score: {score}</p>
+      <h3 dangerouslySetInnerHTML={{ __html: questionsArray[roundCounter].question }}></h3>
+      {choices.map((choice, index) => {
         return (
           <div key={index}>
-          <button onClick={() => checkAnswer(index)}>
-            {choice}
-          </button>
+            <button onClick={() => checkAnswer(choice)} dangerouslySetInnerHTML={{ __html: choice }}></button>
           </div>
-        )
+        );
       })}
     </div>
   );
