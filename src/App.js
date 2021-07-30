@@ -18,7 +18,7 @@ function App() {
       <footer>
         <p>Created at Juno College with Munira, Denzel, Andrew and Gavyn.</p>
       </footer>
-    </Router>
+    </Router> 
   );
 }
 
