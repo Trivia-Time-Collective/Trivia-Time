@@ -1,6 +1,7 @@
 import './App.scss';
 
 import Lobby from './Lobby';
+import Game from './Game';
 
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
@@ -13,6 +14,8 @@ function App() {
       <main>
         <Link to='/lobby'>Start Game</Link>
         <Route path='/lobby' component={Lobby} />
+        <Link to='/game'>Game Page</Link>
+        <Route path='/game' component={Game} />
       </main>
 
       <footer>
