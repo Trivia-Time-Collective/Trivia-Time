@@ -19,7 +19,7 @@ const Lobby = () => {
   return (
     <div>
       <h2>Lobby</h2>
-      <div className='avatar'>{/* <img src='https://avatars.dicebear.com/api/male/example.svg' /> */}</div>
+      <div>{/* <img src='https://avatars.dicebear.com/api/male/example.svg' /> */}</div>
       <div dangerouslySetInnerHTML={{ __html: avatar }} />
 
       <Link to='/game'>Game Page</Link>

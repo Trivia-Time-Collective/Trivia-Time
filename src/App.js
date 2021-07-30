@@ -18,12 +18,12 @@ function App() {
           return (
             <main>
               <Link to='/lobby'>Start Game</Link>
-              <Route path='/lobby' component={Lobby} />
             </main>
           );
         }}
       />
 
+      <Route path='/lobby' component={Lobby} />
       <Route path='/game' component={Game} />
 
       <footer>
