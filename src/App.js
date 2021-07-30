@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 function App() {
   return (
     <Router>
-      <header>
+      <header className='wrapper'>
         <h1>Trivia Time</h1>
       </header>
       <Route
@@ -16,7 +16,7 @@ function App() {
         path='/'
         render={() => {
           return (
-            <main>
+            <main className='wrapper'>
               <Link to='/lobby'>Start Game</Link>
             </main>
           );
@@ -27,7 +27,9 @@ function App() {
       <Route path='/game' component={Game} />
 
       <footer>
-        <p>Created at Juno College with Munira, Denzel, Andrew and Gavyn.</p>
+        <p>
+          Created at <a href='https://junocollege.com/'>Juno College</a> by Munira, Denzel, Andrew and Gavyn.
+        </p>
       </footer>
     </Router>
   );

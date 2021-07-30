@@ -1,2 +1,16 @@
 @import './scss/setup';
 @import './scss/variables';
+
+.wrapper {
+  max-width: 1000px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+}
