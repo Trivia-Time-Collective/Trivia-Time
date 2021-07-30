@@ -1,6 +1,8 @@
 import './App.scss';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Lobby from './Lobby';
+
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 function App() {
   return (
@@ -8,7 +10,11 @@ function App() {
       <header>
         <h1>Trivia Time</h1>
       </header>
-      <main></main>
+      <main>
+        <Link to='/lobby'>Start Game</Link>
+        <Route path='/lobby' component={Lobby} />
+      </main>
+
       <footer>
         <p>Created at Juno College with Munira, Denzel, Andrew and Gavyn.</p>
       </footer>
