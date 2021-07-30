@@ -2,10 +2,9 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Lobby = () => {
+const Lobby = ({ listOfUsers, setListOfUsers }) => {
   const [avatar, setAvatar] = useState('');
   const [usernameInput, setUsernameInput] = useState('');
-  const [listOfUsers, setListOfUsers] = useState([]);
   const [triviaCategory, setTriviaCategory] = useState('placeholder');
   const [triviaDifficulty, setTriviaDifficulty] = useState('placeholder');
   const [triviaQuestionType, setTriviaQuestionType] = useState('placeholder');

@@ -5,8 +5,10 @@ import Lobby from './Lobby';
 import Game from './Game';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { useState } from 'react';
 
 function App() {
+  const [listOfUsers, setListOfUsers] = useState([]);
   return (
     <Router>
       <header className='wrapper'>
@@ -14,8 +16,8 @@ function App() {
       </header>
 
       <Route exact path='/' component={Home} />
-      <Route path='/lobby' component={Lobby} />
-      <Route path='/game' component={Game} />
+      <Route path='/lobby' render={() => <Lobby listOfUsers={listOfUsers} setListOfUsers={setListOfUsers} />} />
+      <Route path='/game' render={() => <Game listOfUsers={listOfUsers} />} />
 
       <footer>
         <p>

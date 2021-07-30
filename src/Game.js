@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-const Game = () => {
+const Game = ({ listOfUsers }) => {
   const [questionsArray, setQuestionsArray] = useState([]);
   const [choices, setChoices] = useState([]);
   const [answer, setAnswer] = useState([]);
@@ -16,6 +16,8 @@ const Game = () => {
     }
     if (roundCounter < 9) {
       setRoundCounter(roundCounter + 1);
+    } else {
+      // end game
     }
   };
 
@@ -31,11 +33,7 @@ const Game = () => {
         type: 'multiple',
       },
     }).then((res) => {
-      // const arrayFromServer = res.data.results;
-      console.log(res.data.results);
       setQuestionsArray(res.data.results);
-      setChoices([...res.data.results[0].incorrect_answers, res.data.results[0].correct_answer]);
-      setAnswer(res.data.results[0].correct_answer);
       setIsLoaded(true);
     });
   }, []);
