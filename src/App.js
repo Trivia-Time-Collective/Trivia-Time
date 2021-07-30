@@ -1,5 +1,6 @@
 import './App.scss';
 
+import Home from './Home';
 import Lobby from './Lobby';
 import Game from './Game';
 
@@ -11,18 +12,8 @@ function App() {
       <header className='wrapper'>
         <h1>Trivia Time</h1>
       </header>
-      <Route
-        exact
-        path='/'
-        render={() => {
-          return (
-            <main className='wrapper'>
-              <Link to='/lobby'>Start Game</Link>
-            </main>
-          );
-        }}
-      />
 
+      <Route exact path='/' component={Home} />
       <Route path='/lobby' component={Lobby} />
       <Route path='/game' component={Game} />
 
