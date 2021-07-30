@@ -5,6 +5,17 @@ const Game = () => {
   const [questionsArray, setQuestionsArray] = useState([]);
   const [choices, setChoices] = useState([]);
   const [answer, setAnswer] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [roundCounter, setRoundCounter] = useState(0);
+
+  const checkAnswer = (buttonValue) => {
+    console.log(buttonValue);
+    if (roundCounter < 9) {
+      setRoundCounter(roundCounter +1)
+    }
+  } 
+
+
 
   useEffect(() => {
     axios({
@@ -23,13 +34,33 @@ const Game = () => {
       setQuestionsArray(res.data.results);
       setChoices([...res.data.results[0].incorrect_answers, res.data.results[0].correct_answer]);
       setAnswer(res.data.results[0].correct_answer);
+      setIsLoaded(true);
     });
   }, []);
-  return (
+
+  useEffect(() => {
+    if (isLoaded) {
+      setChoices([...questionsArray[roundCounter].incorrect_answers, questionsArray[roundCounter].correct_answer]);
+      setAnswer(questionsArray[roundCounter].correct_answer);
+    }
+  }, [roundCounter, isLoaded])
+
+  return !isLoaded?(
     <div>
-      <h2>Gameplay:</h2>
-      <p>{choices}</p>
-      <p>{answer}</p>
+      <h2>Loading...</h2>
+    </div>
+  ):(
+    <div>
+      <h3>{questionsArray[roundCounter].question}</h3>
+      {choices.map( (choice, index) => {
+        return (
+          <div key={index}>
+          <button onClick={() => checkAnswer(index)}>
+            {choice}
+          </button>
+          </div>
+        )
+      })}
     </div>
   );
 };
