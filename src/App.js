@@ -11,17 +11,25 @@ function App() {
       <header>
         <h1>Trivia Time</h1>
       </header>
-      <main>
-        <Link to='/lobby'>Start Game</Link>
-        <Route path='/lobby' component={Lobby} />
-        <Link to='/game'>Game Page</Link>
-        <Route path='/game' component={Game} />
-      </main>
+      <Route
+        exact
+        path='/'
+        render={() => {
+          return (
+            <main>
+              <Link to='/lobby'>Start Game</Link>
+              <Route path='/lobby' component={Lobby} />
+            </main>
+          );
+        }}
+      />
+
+      <Route path='/game' component={Game} />
 
       <footer>
         <p>Created at Juno College with Munira, Denzel, Andrew and Gavyn.</p>
       </footer>
-    </Router> 
+    </Router>
   );
 }
 

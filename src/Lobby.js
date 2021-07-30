@@ -1,30 +1,28 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Lobby = () => {
-
-  const [avatar, setAvatar] = useState("");
+  const [avatar, setAvatar] = useState('');
 
   useEffect(() => {
-
     axios({
-      url:'https://avatars.dicebear.com/api/bottts/munira.svg',
-      method:'GET',
-      dataResponse: 'json'
-
+      url: 'https://avatars.dicebear.com/api/bottts/test.svg',
+      method: 'GET',
+      dataResponse: 'json',
     }).then((res) => {
-      setAvatar(res.data)
+      setAvatar(res.data);
       console.log(res);
-    })
-
-  },[]) 
+    });
+  }, []);
 
   return (
     <div>
       <h2>Lobby</h2>
-      <div className="avatar">
-        <img src="https://avatars.dicebear.com/api/male/example.svg" />
-      </div>
+      <div className='avatar'>{/* <img src='https://avatars.dicebear.com/api/male/example.svg' /> */}</div>
+      <div dangerouslySetInnerHTML={{ __html: avatar }} />
+
+      <Link to='/game'>Game Page</Link>
     </div>
   );
 };
