@@ -1,0 +1,32 @@
+@import './setup.scss';
+@import './variables.scss';
+@import './home.scss';
+
+html {
+  font-size: 62.5%;
+  background-color: $purple;
+}
+
+.wrapper {
+  max-width: 1000px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+}
+
+.avatar {
+  max-width: 75px;
+}
+
+footer {
+  font-family: $body-font;
+  font-size: 1.6rem;
+  text-align: center;
+  background-color: $pale-green;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}

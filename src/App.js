@@ -1,4 +1,4 @@
-import './App.scss';
+import './scss/styles.scss';
 import firebase from './firebaseConfig.js';
 
 import Home from './Home';
