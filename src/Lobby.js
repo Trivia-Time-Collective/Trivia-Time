@@ -12,11 +12,12 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
   const addUser = (e) => {
     e.preventDefault();
     if (usernameInput.trim() !== '') {
-      const newUser = {
-        username: usernameInput.trim(),
-        // other property
-        // image property goes here
-      };
+      const newUser = {};
+
+        newUser.username = usernameInput.trim();
+       newUser.avatarImg = `https://robohash.org/${newUser.username}`;
+
+      
       setListOfUsers([...listOfUsers, newUser]);
     }
     setUsernameInput('');
@@ -52,8 +53,7 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
             return (
               <li>
                 <p>{userObj.username}</p>
-                {/* image goes here */}
-                {/* other propery here */}
+                <img src={userObj.avatarImg} alt={`avatarFor ${userObj.username}`}/>
               </li>
             );
           })}
