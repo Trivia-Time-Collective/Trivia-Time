@@ -8,6 +8,7 @@ const Game = ({ listOfUsers }) => {
   const [answer, setAnswer] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [roundCounter, setRoundCounter] = useState(0);
+  const [turnCounter, setTurnCounter] = useState(0);
   const [score, setScore] = useState(0);
 
   const { category, difficulty, questionType } = useParams();
@@ -16,12 +17,20 @@ const Game = ({ listOfUsers }) => {
   const checkAnswer = (buttonValue) => {
     console.log(buttonValue);
     if (buttonValue === answer) {
-      setScore(score + 1);
+      listOfUsers[turnCounter].points += 1;
+      setScore(listOfUsers[turnCounter].points);
     }
     if (roundCounter < 9) {
       setRoundCounter(roundCounter + 1);
     } else {
-      // end game
+      alert(`Game done, your score was ${listOfUsers[turnCounter].points}`);
+      setRoundCounter(0);
+      setScore(0);
+      if (turnCounter < listOfUsers.length) {
+        setTurnCounter(turnCounter + 1);
+      } else {
+        // endGame();
+      }
     }
   };
 
@@ -38,6 +47,7 @@ const Game = ({ listOfUsers }) => {
       },
     }).then((res) => {
       setQuestionsArray(res.data.results);
+      console.log(res.data.results);
       setIsLoaded(true);
     });
   }, [category, difficulty, questionType]);
@@ -55,6 +65,7 @@ const Game = ({ listOfUsers }) => {
     </div>
   ) : (
     <div>
+      <p>{`${listOfUsers[turnCounter].username}'s turn`}</p>
       <p>Score: {score}</p>
       <h3 dangerouslySetInnerHTML={{ __html: questionsArray[roundCounter].question }}></h3>
       {choices.map((choice, index) => {
