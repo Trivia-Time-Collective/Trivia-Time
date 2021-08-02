@@ -4,9 +4,12 @@ import firebase from './firebaseConfig.js';
 import Home from './Home';
 import Lobby from './Lobby';
 import Game from './Game';
+import GameSummary from './GameSummary';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+
+
 
 function App() {
   const [listOfUsers, setListOfUsers] = useState([]);
@@ -39,11 +42,16 @@ function App() {
     <Router>
       <header className='wrapper'>
         <h1>Trivia Time</h1>
+       
       </header>
 
-      <Route exact path='/' component={Home} />
-      <Route path='/lobby' render={() => <Lobby listOfUsers={listOfUsers} setListOfUsers={setListOfUsers} />} />
-      <Route path='/game/:category/:difficulty/:questionType' render={() => <Game listOfUsers={listOfUsers} />} />
+      <main>
+          <Route exact path='/' component={Home} />
+          <Route path='/lobby' render={() => <Lobby listOfUsers={listOfUsers} setListOfUsers={setListOfUsers} />} />
+          <Route path='/game/:category/:difficulty/:questionType' render={() => <Game listOfUsers={listOfUsers} />} />
+          <Route path='/gamesummary' render={() => <GameSummary listOfUsers={listOfUsers} />} />
+      </main>
+    
 
       <footer>
         <p>

@@ -157,6 +157,7 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
       <Link to={`/game/${triviaCategory}/${triviaDifficulty}/${triviaQuestionType}`} onClick={checkGameSettings}>
         Game Page
       </Link>
+      <Link to='/gamesummary'>Game Summary</Link>
     </div>
   );
 };
