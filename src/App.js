@@ -43,7 +43,7 @@ function App() {
 
       <Route exact path='/' component={Home} />
       <Route path='/lobby' render={() => <Lobby listOfUsers={listOfUsers} setListOfUsers={setListOfUsers} />} />
-      <Route path='/game' render={() => <Game listOfUsers={listOfUsers} />} />
+      <Route path='/game/:category/:difficulty/:questionType' render={() => <Game listOfUsers={listOfUsers} />} />
 
       <footer>
         <p>

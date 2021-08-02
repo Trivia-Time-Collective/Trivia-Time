@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const Game = ({ listOfUsers }) => {
   const [questionsArray, setQuestionsArray] = useState([]);
@@ -8,6 +9,9 @@ const Game = ({ listOfUsers }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [roundCounter, setRoundCounter] = useState(0);
   const [score, setScore] = useState(0);
+
+  const { category, difficulty, questionType } = useParams();
+  console.log(category, difficulty, questionType);
 
   const checkAnswer = (buttonValue) => {
     console.log(buttonValue);

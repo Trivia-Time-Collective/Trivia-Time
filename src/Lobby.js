@@ -27,7 +27,7 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
       dataResponse: 'json',
     }).then((res) => {
       setAvatar(res.data);
-      console.log(res);
+      // console.log(res);
     });
   }, []);
 
@@ -86,7 +86,7 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
         </select>
         {/* On button press, take user choices and go to next page. */}
       </form>
-      <Link to='/game'>Game Page</Link>
+      <Link to={`/game/${triviaCategory}/${triviaDifficulty}/${triviaQuestionType}`}>Game Page</Link>
     </div>
   );
 };
