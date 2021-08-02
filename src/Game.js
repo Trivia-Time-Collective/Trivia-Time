@@ -32,15 +32,15 @@ const Game = ({ listOfUsers }) => {
       dataResponse: 'json',
       params: {
         amount: 10,
-        category: 18,
-        difficulty: 'easy',
-        type: 'multiple',
+        category: category,
+        difficulty: difficulty,
+        type: questionType,
       },
     }).then((res) => {
       setQuestionsArray(res.data.results);
       setIsLoaded(true);
     });
-  }, []);
+  }, [category, difficulty, questionType]);
 
   useEffect(() => {
     if (isLoaded) {

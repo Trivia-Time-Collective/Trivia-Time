@@ -14,6 +14,8 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
     if (usernameInput.trim() !== '') {
       const newUser = {
         username: usernameInput.trim(),
+        // other property
+        // image property goes here
       };
       setListOfUsers([...listOfUsers, newUser]);
     }
@@ -27,7 +29,6 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
       dataResponse: 'json',
     }).then((res) => {
       setAvatar(res.data);
-      // console.log(res);
     });
   }, []);
 
@@ -51,6 +52,8 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
             return (
               <li>
                 <p>{userObj.username}</p>
+                {/* image goes here */}
+                {/* other propery here */}
               </li>
             );
           })}
