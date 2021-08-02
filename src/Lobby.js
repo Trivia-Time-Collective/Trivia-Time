@@ -9,16 +9,34 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
   const [triviaDifficulty, setTriviaDifficulty] = useState('placeholder');
   const [triviaQuestionType, setTriviaQuestionType] = useState('placeholder');
 
+  const removeUser = (userToDelete) => {
+    const newUserList = listOfUsers.filter((userObj) => {
+      return userObj.username !== userToDelete;
+    })
+    setListOfUsers(newUserList);
+  }
+
   const addUser = (e) => {
     e.preventDefault();
-    if (usernameInput.trim() !== '') {
+    const userToAdd = usernameInput.trim()
+    let usernameTaken = false;
+    listOfUsers.forEach((userObj) => {
+      if (userObj.username === userToAdd) {
+        usernameTaken = true;
+      }
+    })
+
+    if (userToAdd !== '' && !usernameTaken) {
       const newUser = {};
 
-        newUser.username = usernameInput.trim();
-       newUser.avatarImg = `https://robohash.org/${newUser.username}`;
+      newUser.username = userToAdd;
+      newUser.avatarImg = `https://robohash.org/${newUser.username}`;
 
-      
+
       setListOfUsers([...listOfUsers, newUser]);
+    } else if(usernameTaken) {
+      alert('Whoops! That username is taken!')
+      //use sweetalert
     }
     setUsernameInput('');
   };
@@ -49,11 +67,12 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
 
       <div className='contestantsContainer'>
         <ul className='contestantsList'>
-          {listOfUsers.map((userObj) => {
+          {listOfUsers.map((userObj, index) => {
             return (
-              <li>
+              <li key={index}>
                 <p>{userObj.username}</p>
-                <img src={userObj.avatarImg} alt={`avatarFor ${userObj.username}`}/>
+                <img src={userObj.avatarImg} alt={`avatarFor ${userObj.username}`} />
+                <div className="removeUser" onClick={() => removeUser(userObj.username)}>X</div>
               </li>
             );
           })}
@@ -66,7 +85,30 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
           <option value='placeholder' disabled>
             Select Category:
           </option>
-          <option value='9'>General Knowledge</option>
+          <option value="9">General Knowledge</option>
+          <option value="10">Entertainment: Books</option>
+          <option value="11">Entertainment: Film</option>
+          <option value="12">Entertainment: Music</option>
+          <option value="13">Entertainment: Musicals &amp; Theatres</option>
+          <option value="14">Entertainment: Television</option>
+          <option value="15">Entertainment: Video Games</option>
+          <option value="16">Entertainment: Board Games</option>
+          <option value="17">Science &amp; Nature</option>
+          <option value="18">Science: Computers</option>
+          <option value="19">Science: Mathematics</option>
+          <option value="20">Mythology</option>
+          <option value="21">Sports</option>
+          <option value="22">Geography</option>
+          <option value="23">History</option>
+          <option value="24">Politics</option>
+          <option value="25">Art</option>
+          <option value="26">Celebrities</option>
+          <option value="27">Animals</option>
+          <option value="28">Vehicles</option>
+          <option value="29">Entertainment: Comics</option>
+          <option value="30">Science: Gadgets</option>
+          <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+          <option value="32">Entertainment: Cartoon &amp; Animations</option>
           {/* Try to access API to get category list */}
         </select>
         <label htmlFor='triviaDifficulty'>Select Difficulty</label>
