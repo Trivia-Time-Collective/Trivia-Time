@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+h1 {
+  font-family: $header-font;
+  font-size: 10rem;
+  color: $pale-green;
+  text-transform: uppercase;
+  animation: flicker 4s infinite;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  text-align: center;
+  min-width: 50%;
+  padding: 10px;
+  margin: 30px;
+  border: 2px solid $white;
+  box-shadow:
+    0 0 .5rem $white,
+    inset 0 0 .5rem $white,
+    0 0 5rem $turquoise;
+
+  font-family: $body-font;
+  font-size: 5rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: $lime-green;
+
+  text-shadow:
+  0 0 5px $turquoise,
+  0 0 10px $turquoise,
+  0 0 20px $turquoise,
+  0 0 40px $turquoise,
+}
+
+.button:hover {
+  animation: flicker 4s infinite;
+}
+
+/* animate neon flicker effect */
+@keyframes flicker {
+
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+          text-shadow:
+          0 0 5px $turquoise,
+          0 0 10px $turquoise,
+          0 0 20px $turquoise,
+          0 0 40px $turquoise;
+  }
+
+  20%, 24%, 55% {
+      text-shadow: none;
+      box-shadow: none;
+  }
+}
+
