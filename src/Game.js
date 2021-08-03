@@ -12,16 +12,11 @@ const Game = ({ listOfUsers }) => {
   const [turnCounter, setTurnCounter] = useState(0);
   const [score, setScore] = useState(0);
 
-  const [countdown, setCountdown] = useState(10);
-
   const history = useHistory();
 
   const { category, difficulty, questionType } = useParams();
   console.log(category, difficulty, questionType);
 
-  // const countdownTimer = () => {
-  //   setCountdown(countdown - 1);
-  // };
 
   const checkAnswer = (buttonValue) => {
     console.log(buttonValue);
@@ -45,18 +40,7 @@ const Game = ({ listOfUsers }) => {
         history.push('/gamesummary');
       }
     }
-    // setCountdown(10);
-
-    // if (countdown > 0) {
-    //   setTimeout(() => setCountdown(countdown - 1), 1000);
-    // } else {
-    //   setCountdown('Time Over!');
-    // }
   };
-
-  if (countdown === 0) {
-    checkAnswer('null');
-  }
 
   useEffect(() => {
     axios({
@@ -86,10 +70,6 @@ const Game = ({ listOfUsers }) => {
     }
   }, [roundCounter, isLoaded, questionsArray]);
 
-  // useEffect(() => {
-  //   setTimeout(countdownTimer, 1000);
-  // }, [countdown, countdownTimer]);
-
   return !isLoaded ? (
     <div>
       <h2>Loading...</h2>
@@ -98,7 +78,6 @@ const Game = ({ listOfUsers }) => {
     <div>
       <p>{`${listOfUsers[turnCounter].username}'s turn`}</p>
       <p>Score: {score}</p>
-      <div>Time Left: {countdown}</div>
       <h3
         dangerouslySetInnerHTML={{
           __html: questionsArray[roundCounter].question,
