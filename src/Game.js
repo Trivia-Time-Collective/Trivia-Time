@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Route, useParams, useHistory } from 'react-router-dom';
- 
+import { useParams, useHistory } from 'react-router-dom';
 
 const Game = ({ listOfUsers }) => {
   const [questionsArray, setQuestionsArray] = useState([]);
@@ -29,16 +28,10 @@ const Game = ({ listOfUsers }) => {
       alert(`Game done, your score was ${listOfUsers[turnCounter].points}`);
       setRoundCounter(0);
       setScore(0);
-      if (turnCounter < listOfUsers.length -1) {
+      if (turnCounter < listOfUsers.length - 1) {
         setTurnCounter(turnCounter + 1);
       } else {
-        
-        history.push('/gamesummary')
-
-        // alert('Game Over! {Play Again!}' Route path)
-
-
-     
+        history.push('/gamesummary');
       }
     }
   };
