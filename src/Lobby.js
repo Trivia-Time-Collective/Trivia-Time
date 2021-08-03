@@ -77,41 +77,30 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
   }, []);
 
   return (
-    <div>
+    <div className="lobbyWrapper">
       <h2>Lobby</h2>
-      <form className="addUserForm" onSubmit={addUser}>
-        <label htmlFor="username">Enter a username:</label>
-        <input
-          type="text"
-          id="username"
-          placeholder="Enter username"
-          required
-          value={usernameInput}
-          onChange={(e) => setUsernameInput(e.target.value)}
-        />
-        <label htmlFor="avatarSelect">Select an Avatar:</label>
-        <select id="avatarSelect">
-          <option value="1">Robot 1</option>
+      <form className='addUserForm' onSubmit={addUser}>
+        <label htmlFor='username'>Enter a username:</label>
+        <input type='text' id='username' placeholder='Enter username' required value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} />
+
+      
+        <label htmlFor='avatarSelect'>Select an Avatar:</label>
+        <select id='avatarSelect'>
+          <option value='1'>Robot 1</option>
         </select>
         <button type="submit">Add User</button>
       </form>
       <div className="avatar" dangerouslySetInnerHTML={{ __html: avatar }} />
-
-      <div className="contestantsContainer">
-        <ul className="contestantsList">
+      <div className='contestantsContainer'>
+        <ul className='userProfileList'>
           {listOfUsers.map((userObj, index) => {
             return (
-              <li key={index}>
-                <p>{userObj.username}</p>
-                <img
-                  src={userObj.avatarImg}
-                  alt={`avatarFor ${userObj.username}`}
-                />
-                <div
-                  className="removeUser"
-                  onClick={() => removeUser(userObj.username)}
-                >
-                  X
+              <li className="userProfile" key={index}>
+                <p className="userProfileName" >{userObj.username}</p>
+                <img src={userObj.avatarImg} className="userProfileAvatar" alt={`avatarFor ${userObj.username}`} />
+                <div className='removeUser' onClick={() => removeUser(userObj.username)}>
+                  Remove User
+
                 </div>
               </li>
             );
