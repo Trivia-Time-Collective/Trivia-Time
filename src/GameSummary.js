@@ -12,20 +12,22 @@ const GameSummary = ({ listOfUsers }) => {
                         <div className="userProfile">
                             <img className="userProfileAvatar" src={userObj.avatarImg} alt={userObj.username}/>
                             <p className="userProfileName">{userObj.username}</p>
-                            <p>{userObj.points}</p>
+                            <p className="userPoints">Points: {userObj.points}</p>
                         </div>
+                        
                     )
                 })} 
-
-                
-            {/* // all scores 
-        // announce the winner
-        // button for play again? and another for main */}
-        <Link to='/'>Home</Link>
-        <Link to='/lobby'>Play Again</Link>
-        <Link to='/leaderboard'>Leaderboard</Link>
             </div>
+        <div className="summaryPageLinks">         
+                {/* // all scores 
+            // announce the winner
+            // button for play again? and another for main */}
+            <Link to='/'>Home</Link>
+            <Link to='/lobby'>Play Again</Link>
+            <Link to='/leaderboard'>Leaderboard</Link>
         </div>
+      </div>
+        
     )
 }
 
