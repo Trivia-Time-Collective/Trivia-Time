@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
-import { count } from 'yargs';
 
 const Game = ({ listOfUsers }) => {
   const [questionsArray, setQuestionsArray] = useState([]);
@@ -13,40 +12,51 @@ const Game = ({ listOfUsers }) => {
   const [turnCounter, setTurnCounter] = useState(0);
   const [score, setScore] = useState(0);
 
-  const [countdown, setCountdown] = useState(30);
+  const [countdown, setCountdown] = useState(10);
 
   const history = useHistory();
 
   const { category, difficulty, questionType } = useParams();
   console.log(category, difficulty, questionType);
 
+  // const countdownTimer = () => {
+  //   setCountdown(countdown - 1);
+  // };
+
   const checkAnswer = (buttonValue) => {
     console.log(buttonValue);
+
     if (buttonValue === answer) {
       listOfUsers[turnCounter].points += 1;
       setScore(listOfUsers[turnCounter].points);
     }
     if (roundCounter < 9) {
       setRoundCounter(roundCounter + 1);
-      setCountdown(30);
     } else {
-      swal('Round Complete!', `Your score was ${listOfUsers[turnCounter].points}.`);
+      swal(
+        'Round Complete!',
+        `Your score was ${listOfUsers[turnCounter].points}.`
+      );
       setRoundCounter(0);
       setScore(0);
-      setCountdown(30);
       if (turnCounter < listOfUsers.length - 1) {
         setTurnCounter(turnCounter + 1);
       } else {
         history.push('/gamesummary');
       }
     }
-    
+    // setCountdown(10);
+
     // if (countdown > 0) {
     //   setTimeout(() => setCountdown(countdown - 1), 1000);
     // } else {
     //   setCountdown('Time Over!');
     // }
   };
+
+  if (countdown === 0) {
+    checkAnswer('null');
+  }
 
   useEffect(() => {
     axios({
@@ -76,14 +86,9 @@ const Game = ({ listOfUsers }) => {
     }
   }, [roundCounter, isLoaded, questionsArray]);
 
-  useEffect(() => {
-
-    setTimeout (() => setCountdown(countdown - 1), 1000);
-    if (countdown === 0)
-      {
-        checkAnswer('hello')
-      }
-  }, [countdown]);
+  // useEffect(() => {
+  //   setTimeout(countdownTimer, 1000);
+  // }, [countdown, countdownTimer]);
 
   return !isLoaded ? (
     <div>
@@ -93,9 +98,7 @@ const Game = ({ listOfUsers }) => {
     <div>
       <p>{`${listOfUsers[turnCounter].username}'s turn`}</p>
       <p>Score: {score}</p>
-      <div>
-        Time Left: {countdown}
-      </div>
+      <div>Time Left: {countdown}</div>
       <h3
         dangerouslySetInnerHTML={{
           __html: questionsArray[roundCounter].question,
@@ -113,7 +116,6 @@ const Game = ({ listOfUsers }) => {
       })}
     </div>
   );
-
 };
 
 export default Game;
