@@ -58,7 +58,9 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
 
     if (errorMessage.length > 0) {
       e.preventDefault();
-      alert('The following fields are missing: \n - ' + errorMessage.join('\n - '));
+      alert(
+        'The following fields are missing: \n - ' + errorMessage.join('\n - ')
+      );
     }
   };
 
@@ -75,25 +77,38 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
   return (
     <div>
       <h2>Lobby</h2>
-      <form className='addUserForm' onSubmit={addUser}>
-        <label htmlFor='username'>Enter a username:</label>
-        <input type='text' id='username' placeholder='Enter username' required value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} />
-        <label htmlFor='avatarSelect'>Select an Avatar:</label>
-        <select id='avatarSelect'>
-          <option value='1'>Robot 1</option>
+      <form className="addUserForm" onSubmit={addUser}>
+        <label htmlFor="username">Enter a username:</label>
+        <input
+          type="text"
+          id="username"
+          placeholder="Enter username"
+          required
+          value={usernameInput}
+          onChange={(e) => setUsernameInput(e.target.value)}
+        />
+        <label htmlFor="avatarSelect">Select an Avatar:</label>
+        <select id="avatarSelect">
+          <option value="1">Robot 1</option>
         </select>
-        <button type='submit'>Add User</button>
+        <button type="submit">Add User</button>
       </form>
-      <div className='avatar' dangerouslySetInnerHTML={{ __html: avatar }} />
+      <div className="avatar" dangerouslySetInnerHTML={{ __html: avatar }} />
 
-      <div className='contestantsContainer'>
-        <ul className='contestantsList'>
+      <div className="contestantsContainer">
+        <ul className="contestantsList">
           {listOfUsers.map((userObj, index) => {
             return (
               <li key={index}>
                 <p>{userObj.username}</p>
-                <img src={userObj.avatarImg} alt={`avatarFor ${userObj.username}`} />
-                <div className='removeUser' onClick={() => removeUser(userObj.username)}>
+                <img
+                  src={userObj.avatarImg}
+                  alt={`avatarFor ${userObj.username}`}
+                />
+                <div
+                  className="removeUser"
+                  onClick={() => removeUser(userObj.username)}
+                >
                   X
                 </div>
               </li>
@@ -102,62 +117,77 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
         </ul>
       </div>
 
-      <form className='triviaOptionsForm'>
-        <label htmlFor='triviaCategory'>Select Category:</label>
-        <select id='triviaCategory' onChange={(e) => setTriviaCategory(e.target.value)} value={triviaCategory}>
-          <option value='placeholder' disabled>
+      <form className="triviaOptionsForm">
+        <label htmlFor="triviaCategory">Select Category:</label>
+        <select
+          id="triviaCategory"
+          onChange={(e) => setTriviaCategory(e.target.value)}
+          value={triviaCategory}
+        >
+          <option value="placeholder" disabled>
             Select Category:
           </option>
-          <option value='9'>General Knowledge</option>
-          <option value='10'>Entertainment: Books</option>
-          <option value='11'>Entertainment: Film</option>
-          <option value='12'>Entertainment: Music</option>
-          <option value='13'>Entertainment: Musicals &amp; Theatres</option>
-          <option value='14'>Entertainment: Television</option>
-          <option value='15'>Entertainment: Video Games</option>
-          <option value='16'>Entertainment: Board Games</option>
-          <option value='17'>Science &amp; Nature</option>
-          <option value='18'>Science: Computers</option>
-          <option value='19'>Science: Mathematics</option>
-          <option value='20'>Mythology</option>
-          <option value='21'>Sports</option>
-          <option value='22'>Geography</option>
-          <option value='23'>History</option>
-          <option value='24'>Politics</option>
-          <option value='25'>Art</option>
-          <option value='26'>Celebrities</option>
-          <option value='27'>Animals</option>
-          <option value='28'>Vehicles</option>
-          <option value='29'>Entertainment: Comics</option>
-          <option value='30'>Science: Gadgets</option>
-          <option value='31'>Entertainment: Japanese Anime &amp; Manga</option>
-          <option value='32'>Entertainment: Cartoon &amp; Animations</option>
+          <option value="9">General Knowledge</option>
+          <option value="10">Entertainment: Books</option>
+          <option value="11">Entertainment: Film</option>
+          <option value="12">Entertainment: Music</option>
+          <option value="13">Entertainment: Musicals &amp; Theatres</option>
+          <option value="14">Entertainment: Television</option>
+          <option value="15">Entertainment: Video Games</option>
+          <option value="16">Entertainment: Board Games</option>
+          <option value="17">Science &amp; Nature</option>
+          <option value="18">Science: Computers</option>
+          <option value="19">Science: Mathematics</option>
+          <option value="20">Mythology</option>
+          <option value="21">Sports</option>
+          <option value="22">Geography</option>
+          <option value="23">History</option>
+          <option value="24">Politics</option>
+          <option value="25">Art</option>
+          <option value="26">Celebrities</option>
+          <option value="27">Animals</option>
+          <option value="28">Vehicles</option>
+          <option value="29">Entertainment: Comics</option>
+          <option value="30">Science: Gadgets</option>
+          <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+          <option value="32">Entertainment: Cartoon &amp; Animations</option>
           {/* Try to access API to get category list */}
         </select>
-        <label htmlFor='triviaDifficulty'>Select Difficulty</label>
+        <label htmlFor="triviaDifficulty">Select Difficulty</label>
 
-        <select id='triviaDifficulty' onChange={(e) => setTriviaDifficulty(e.target.value)} value={triviaDifficulty}>
-          <option value='placeholder' disabled>
+        <select
+          id="triviaDifficulty"
+          onChange={(e) => setTriviaDifficulty(e.target.value)}
+          value={triviaDifficulty}
+        >
+          <option value="placeholder" disabled>
             Select Difficulty:
           </option>
-          <option value='easy'>Easy</option>
-          <option value='medium'>Medium</option>
-          <option value='hard'>Hard</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
         </select>
-        <label htmlFor='triviaQuestionType'>Select Question Type:</label>
-        <select id='triviaQuestionType' onChange={(e) => setTriviaQuestionType(e.target.value)} value={triviaQuestionType}>
-          <option value='placeholder' disabled>
+        <label htmlFor="triviaQuestionType">Select Question Type:</label>
+        <select
+          id="triviaQuestionType"
+          onChange={(e) => setTriviaQuestionType(e.target.value)}
+          value={triviaQuestionType}
+        >
+          <option value="placeholder" disabled>
             Select Q Type:
           </option>
-          <option value='boolean'>True or False</option>
-          <option value='multiple'>Multiple Choice</option>
+          <option value="boolean">True or False</option>
+          <option value="multiple">Multiple Choice</option>
         </select>
         {/* On button press, take user choices and go to next page. */}
       </form>
-      <Link to={`/game/${triviaCategory}/${triviaDifficulty}/${triviaQuestionType}`} onClick={checkGameSettings}>
+      <Link
+        to={`/game/${triviaCategory}/${triviaDifficulty}/${triviaQuestionType}`}
+        onClick={checkGameSettings}
+      >
         Game Page
       </Link>
-      <Link to='/gamesummary'>Game Summary</Link>
+      <Link to="/gamesummary">Game Summary</Link>
     </div>
   );
 };

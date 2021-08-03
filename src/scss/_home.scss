@@ -30,7 +30,8 @@ h1 {
   text-decoration: none;
   color: $lime-green;
 
-  text-shadow: 0 0 5px $turquoise, 0 0 10px $turquoise, 0 0 20px $turquoise, 0 0 40px $turquoise;
+  text-shadow: 0 0 5px $turquoise, 0 0 10px $turquoise, 0 0 20px $turquoise,
+    0 0 40px $turquoise;
 }
 
 .button:hover {
@@ -47,7 +48,8 @@ h1 {
   54%,
   56%,
   100% {
-    text-shadow: 0 0 5px $turquoise, 0 0 10px $turquoise, 0 0 20px $turquoise, 0 0 40px $turquoise;
+    text-shadow: 0 0 5px $turquoise, 0 0 10px $turquoise, 0 0 20px $turquoise,
+      0 0 40px $turquoise;
   }
 
   20%,

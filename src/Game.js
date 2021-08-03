@@ -56,7 +56,10 @@ const Game = ({ listOfUsers }) => {
 
   useEffect(() => {
     if (isLoaded) {
-      setChoices([...questionsArray[roundCounter].incorrect_answers, questionsArray[roundCounter].correct_answer]);
+      setChoices([
+        ...questionsArray[roundCounter].incorrect_answers,
+        questionsArray[roundCounter].correct_answer,
+      ]);
       setAnswer(questionsArray[roundCounter].correct_answer);
     }
   }, [roundCounter, isLoaded, questionsArray]);
@@ -69,11 +72,18 @@ const Game = ({ listOfUsers }) => {
     <div>
       <p>{`${listOfUsers[turnCounter].username}'s turn`}</p>
       <p>Score: {score}</p>
-      <h3 dangerouslySetInnerHTML={{ __html: questionsArray[roundCounter].question }}></h3>
+      <h3
+        dangerouslySetInnerHTML={{
+          __html: questionsArray[roundCounter].question,
+        }}
+      ></h3>
       {choices.map((choice, index) => {
         return (
           <div key={index}>
-            <button onClick={() => checkAnswer(choice)} dangerouslySetInnerHTML={{ __html: choice }}></button>
+            <button
+              onClick={() => checkAnswer(choice)}
+              dangerouslySetInnerHTML={{ __html: choice }}
+            ></button>
           </div>
         );
       })}
