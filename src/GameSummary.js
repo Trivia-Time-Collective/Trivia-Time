@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 
 const GameSummary = ({ listOfUsers }) => {
     return (
-        <div>
+        <div className="summaryWrapper">
             <h2>Game Summary!</h2>
             <div className="playerContainer">
                 {listOfUsers.map((userObj) => {
                     return (
-                        <div className="summaryProfile">
-                            <img src={userObj.avatarImg} alt={userObj.username}/>
-                            <p>{userObj.username}</p>
+                        <div className="userProfile">
+                            <img className="userProfileAvatar" src={userObj.avatarImg} alt={userObj.username}/>
+                            <p className="userProfileName">{userObj.username}</p>
                             <p>{userObj.points}</p>
                         </div>
                     )
