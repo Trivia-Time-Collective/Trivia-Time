@@ -17,7 +17,6 @@ const Game = ({ listOfUsers }) => {
   const { category, difficulty, questionType } = useParams();
   console.log(category, difficulty, questionType);
 
-
   const checkAnswer = (buttonValue) => {
     console.log(buttonValue);
 
@@ -75,24 +74,28 @@ const Game = ({ listOfUsers }) => {
       <h2>Loading...</h2>
     </div>
   ) : (
-    <div>
-      <p>{`${listOfUsers[turnCounter].username}'s turn`}</p>
-      <p>Score: {score}</p>
+    <div className="gamePage">
+      <div className="currentUser">
+        <p>{`${listOfUsers[turnCounter].username}'s turn`}</p>
+        <p>Score: {score}</p>
+      </div>
       <h3
         dangerouslySetInnerHTML={{
           __html: questionsArray[roundCounter].question,
         }}
       ></h3>
-      {choices.map((choice, index) => {
-        return (
-          <div key={index}>
+      <div className="triviaChoiceContainer">
+        {choices.map((choice, index) => {
+          return (
             <button
+              key={index}
+              className="triviaChoice"
               onClick={() => checkAnswer(choice)}
               dangerouslySetInnerHTML={{ __html: choice }}
             ></button>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };

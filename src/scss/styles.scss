@@ -1,13 +1,19 @@
 @import './setup.scss';
 @import './variables.scss';
 @import './home.scss';
+@import './lobby';
 @import './playerProfiles.scss';
+@import './game';
 
 html {
   font-size: 62.5%;
   background-color: $purple;
   background: linear-gradient($navy 10%, $purple 100%);
   color: $white;
+}
+
+body {
+  font-size: 1.6rem;
 }
 
 #root {

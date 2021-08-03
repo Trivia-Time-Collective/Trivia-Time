@@ -1,0 +1,29 @@
+.gamePage {
+  width: 100%;
+  h3 {
+    max-width: 600px;
+    text-align: center;
+    font-family: $header-font;
+    margin: 2rem auto;
+  }
+}
+
+.currentUser {
+  display: flex;
+  justify-content: space-between;
+}
+
+.triviaChoiceContainer {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.triviaChoice {
+  padding: 4rem;
+  color: $navy;
+  border: 1px solid black;
+  margin: 20px;
+  flex: 1 0 410px;
+}

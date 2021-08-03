@@ -1,0 +1,74 @@
+.addUserForm {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  margin: 20px 0;
+}
+
+.triviaOptionsForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px 0;
+}
+
+.formButton {
+  text-align: center;
+  border: 2px solid $white;
+  background-color: transparent;
+  box-shadow: 0 0 0.5rem $white, inset 0 0 0.5rem $white, 0 0 5rem $turquoise;
+  height: 3rem;
+  margin: 5px 0;
+
+  font-family: $body-font;
+  font-size: calc(2rem + 0.5vw);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: $lime-green;
+
+  text-shadow: 0 0 5px $turquoise, 0 0 10px $turquoise, 0 0 20px $turquoise,
+    0 0 40px $turquoise;
+}
+.formButton:hover {
+  animation: flicker 4s infinite;
+}
+
+.formRow {
+  display: flex;
+  .formBox {
+    width: 50%;
+  }
+}
+
+.formBox {
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px;
+  label {
+    text-align: center;
+    font-family: $body-font;
+    font-size: 2rem;
+  }
+  input {
+    margin: 5px 0;
+    line-height: 2rem;
+    padding-left: 5px;
+  }
+  select {
+    margin: 5px 0;
+    height: 2.5rem;
+  }
+}
+
+.contestantsContainer {
+  min-height: 200px;
+}
+
+.linkContainer {
+  width: 100%;
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+}
