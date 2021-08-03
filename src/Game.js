@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const Game = ({ listOfUsers }) => {
   const [questionsArray, setQuestionsArray] = useState([]);
@@ -25,7 +26,7 @@ const Game = ({ listOfUsers }) => {
     if (roundCounter < 9) {
       setRoundCounter(roundCounter + 1);
     } else {
-      alert(`Game done, your score was ${listOfUsers[turnCounter].points}`);
+      swal('Round Complete!', `Your score was ${listOfUsers[turnCounter].points}.`);
       setRoundCounter(0);
       setScore(0);
       if (turnCounter < listOfUsers.length - 1) {

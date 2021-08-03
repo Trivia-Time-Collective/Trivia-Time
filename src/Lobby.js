@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const Lobby = ({ listOfUsers, setListOfUsers }) => {
   const [avatar, setAvatar] = useState('');
@@ -34,8 +35,7 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
 
       setListOfUsers([...listOfUsers, newUser]);
     } else if (usernameTaken) {
-      alert('Whoops! That username is taken!');
-      //use sweetalert
+      swal('Whoops!', 'That username is taken.', 'warning');
     }
     setUsernameInput('');
   };
@@ -43,14 +43,14 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
   const checkGameSettings = (e) => {
     let errorMessage = [];
     if (triviaCategory === 'placeholder') {
-      errorMessage.push('trivia category missing');
+      errorMessage.push('trivia category');
     }
     if (triviaDifficulty === 'placeholder') {
-      errorMessage.push('trivia difficult missing');
+      errorMessage.push('trivia difficulty');
     }
 
     if (triviaQuestionType === 'placeholder') {
-      errorMessage.push('trivia question type missing');
+      errorMessage.push('trivia question type');
     }
     if (listOfUsers.length <= 0) {
       errorMessage.push('must have at least one user');
@@ -58,9 +58,11 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
 
     if (errorMessage.length > 0) {
       e.preventDefault();
-      alert(
-        'The following fields are missing: \n - ' + errorMessage.join('\n - ')
-      );
+      swal({
+        title:'The following fields are missing:',
+        text: '- ' + errorMessage.join('\n - '),
+        icon: 'warning'
+      });
     }
   };
 
