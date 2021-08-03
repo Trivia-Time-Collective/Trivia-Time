@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Route, useParams, useHistory } from 'react-router-dom';
- 
+import { useParams, useHistory } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const Game = ({ listOfUsers }) => {
   const [questionsArray, setQuestionsArray] = useState([]);
@@ -17,8 +17,10 @@ const Game = ({ listOfUsers }) => {
   const { category, difficulty, questionType } = useParams();
   console.log(category, difficulty, questionType);
 
+
   const checkAnswer = (buttonValue) => {
     console.log(buttonValue);
+
     if (buttonValue === answer) {
       listOfUsers[turnCounter].points += 1;
       setScore(listOfUsers[turnCounter].points);
@@ -26,19 +28,16 @@ const Game = ({ listOfUsers }) => {
     if (roundCounter < 9) {
       setRoundCounter(roundCounter + 1);
     } else {
-      alert(`Game done, your score was ${listOfUsers[turnCounter].points}`);
+      swal(
+        'Round Complete!',
+        `Your score was ${listOfUsers[turnCounter].points}.`
+      );
       setRoundCounter(0);
       setScore(0);
-      if (turnCounter < listOfUsers.length -1) {
+      if (turnCounter < listOfUsers.length - 1) {
         setTurnCounter(turnCounter + 1);
       } else {
-        
-        history.push('/gamesummary')
-
-        // alert('Game Over! {Play Again!}' Route path)
-
-
-     
+        history.push('/gamesummary');
       }
     }
   };
@@ -63,7 +62,10 @@ const Game = ({ listOfUsers }) => {
 
   useEffect(() => {
     if (isLoaded) {
-      setChoices([...questionsArray[roundCounter].incorrect_answers, questionsArray[roundCounter].correct_answer]);
+      setChoices([
+        ...questionsArray[roundCounter].incorrect_answers,
+        questionsArray[roundCounter].correct_answer,
+      ]);
       setAnswer(questionsArray[roundCounter].correct_answer);
     }
   }, [roundCounter, isLoaded, questionsArray]);
@@ -76,11 +78,18 @@ const Game = ({ listOfUsers }) => {
     <div>
       <p>{`${listOfUsers[turnCounter].username}'s turn`}</p>
       <p>Score: {score}</p>
-      <h3 dangerouslySetInnerHTML={{ __html: questionsArray[roundCounter].question }}></h3>
+      <h3
+        dangerouslySetInnerHTML={{
+          __html: questionsArray[roundCounter].question,
+        }}
+      ></h3>
       {choices.map((choice, index) => {
         return (
           <div key={index}>
-            <button onClick={() => checkAnswer(choice)} dangerouslySetInnerHTML={{ __html: choice }}></button>
+            <button
+              onClick={() => checkAnswer(choice)}
+              dangerouslySetInnerHTML={{ __html: choice }}
+            ></button>
           </div>
         );
       })}

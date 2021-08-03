@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 
-
-
 const GameSummary = ({ listOfUsers }) => {
     return (
         <div className="summaryWrapper">
@@ -30,5 +28,4 @@ const GameSummary = ({ listOfUsers }) => {
         
     )
 }
-
-export default GameSummary
+export default GameSummary;

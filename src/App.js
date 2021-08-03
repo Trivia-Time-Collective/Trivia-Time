@@ -9,8 +9,6 @@ import GameSummary from './GameSummary';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-
-
 function App() {
   const [listOfUsers, setListOfUsers] = useState([]);
   const [fBListOfUsers, setFBListOfUsers] = useState([]);
@@ -40,22 +38,32 @@ function App() {
 
   return (
     <Router>
-      <header className='wrapper'>
+      <header className="wrapper">
         <h1>Trivia Time</h1>
-       
       </header>
 
-      <main>
-          <Route exact path='/' component={Home} />
-          <Route path='/lobby' render={() => <Lobby listOfUsers={listOfUsers} setListOfUsers={setListOfUsers} />} />
-          <Route path='/game/:category/:difficulty/:questionType' render={() => <Game listOfUsers={listOfUsers} />} />
-          <Route path='/gamesummary' render={() => <GameSummary listOfUsers={listOfUsers} />} />
+      <main className="wrapper">
+        <Route exact path="/" component={Home} />
+        <Route
+          path="/lobby"
+          render={() => (
+            <Lobby listOfUsers={listOfUsers} setListOfUsers={setListOfUsers} />
+          )}
+        />
+        <Route
+          path="/game/:category/:difficulty/:questionType"
+          render={() => <Game listOfUsers={listOfUsers} />}
+        />
+        <Route
+          path="/gamesummary"
+          render={() => <GameSummary listOfUsers={listOfUsers} />}
+        />
       </main>
-    
 
       <footer>
         <p>
-          Created at <a href='https://junocollege.com/'>Juno College</a> by Munira, Denzel, Andrew and Gavyn.
+          Created at <a href="https://junocollege.com/">Juno College</a> by
+          Munira, Denzel, Andrew and Gavyn.
         </p>
       </footer>
     </Router>
