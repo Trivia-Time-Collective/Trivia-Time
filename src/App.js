@@ -19,7 +19,6 @@ function App() {
 
     dbRef.on('value', (snapshot) => {
       const myData = snapshot.val();
-      console.log(myData);
       const newArray = [];
       for (let objKey in myData) {
         const userObj = {
@@ -43,7 +42,7 @@ function App() {
       <main className="wrapper">
         <Route exact path="/" component={Home} />
         <Route path="/lobby" render={() => <Lobby listOfUsers={listOfUsers} setListOfUsers={setListOfUsers} roomCode={roomCode} />} />
-        <Route path="/game/:category/:difficulty/:questionType" render={() => <Game listOfUsers={listOfUsers} />} />
+        <Route path="/game/:category/:difficulty/:questionType" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} />} />
         <Route path="/gamesummary" render={() => <GameSummary listOfUsers={listOfUsers} />} />
       </main>
 

@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
-// import firebase from './firebaseConfig.js';
+import firebase from './firebaseConfig.js';
 
-const Game = ({ listOfUsers }) => {
+const Game = ({ listOfUsers, roomCode }) => {
   const [questionsArray, setQuestionsArray] = useState([]);
   const [choices, setChoices] = useState([]);
   const [answer, setAnswer] = useState([]);
@@ -14,19 +14,22 @@ const Game = ({ listOfUsers }) => {
   const [score, setScore] = useState(0);
 
   const history = useHistory();
-
   const { category, difficulty, questionType } = useParams();
-  console.log(category, difficulty, questionType);
+  // Get Firebase reference to points value for current user
+  const currentUserRef = firebase.database().ref(`sessions/${roomCode}/${listOfUsers[turnCounter].key}`);
 
-  const checkAnswer = (buttonValue) => {
+  const checkAnswer = async (buttonValue) => {
     if (buttonValue === answer) {
-      listOfUsers[turnCounter].points += 1;
-      setScore(listOfUsers[turnCounter].points);
+      const pointsSnapshot = await currentUserRef.child('points').get();
+      const updatedPoints = pointsSnapshot.val() + 1;
+      currentUserRef.update({ points: updatedPoints });
     }
     if (roundCounter < 9) {
       setRoundCounter(roundCounter + 1);
     } else {
-      swal('Round Complete!', `Your score was ${listOfUsers[turnCounter].points}.`);
+      // get a new snapshot in case final question was answered correctly
+      const pointsSnapshot = await currentUserRef.child('points').get();
+      swal('Round Complete!', `Your score was ${pointsSnapshot.val()}.`);
       setRoundCounter(0);
       setScore(0);
       if (turnCounter < listOfUsers.length - 1) {
@@ -64,6 +67,16 @@ const Game = ({ listOfUsers }) => {
       setAnswer(questionsArray[roundCounter].correct_answer);
     }
   }, [roundCounter, isLoaded, questionsArray]);
+
+  // On page load, loops through all users to ensure that points are at 0 (since users now persist on Firebase)
+  useEffect(() => {
+    for (let userObj of listOfUsers) {
+      const userRef = firebase.database().ref(`sessions/${roomCode}/${userObj.key}`);
+      userRef.update({ points: 0 });
+    }
+    console.log('user scores reset');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return !isLoaded ? (
     <div>
