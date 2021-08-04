@@ -79,19 +79,17 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
 
   return (
     <main className="wrapper lobbyContainer">
+      <Link to="/" className="formButton">
+        Home
+      </Link>
       <form className="addUserForm" onSubmit={addUser}>
         <div className="formBox">
-          <label htmlFor="username">Enter a username:</label>
+          <label className="sr-only" htmlFor="username">
+            Enter a username:
+          </label>
           <input type="text" id="username" placeholder="Enter username" required value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} />
         </div>
-
-        <div className="formBox">
-          <label htmlFor="avatarSelect">Select an Avatar:</label>
-          <select id="avatarSelect">
-            <option value="1">Robot 1</option>
-          </select>
-        </div>
-        <button type="submit" className="formButton">
+        <button type="submit" className="turqoiseButton">
           Add User
         </button>
       </form>
@@ -119,10 +117,12 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
           })}
         </ul>
       </div>
-
+      <h3>Select your Trivia Options</h3>
       <form className="triviaOptionsForm">
         <div className="formBox">
-          <label htmlFor="triviaCategory">Category:</label>
+          <label className="triviaLabel" htmlFor="triviaCategory">
+            Category:
+          </label>
           <select id="triviaCategory" onChange={(e) => setTriviaCategory(e.target.value)} value={triviaCategory}>
             <option value="placeholder" disabled>
               Select Category:
@@ -151,60 +151,73 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
             <option value="30">Science: Gadgets</option>
             <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
             <option value="32">Entertainment: Cartoon &amp; Animations</option>
-            {/* Try to access API to get category list */}
           </select>
         </div>
 
         <div className="formRow">
-          <div className="formBox">
-            <label htmlFor="triviaDifficulty">Difficulty</label>
-            <select id="triviaDifficulty" onChange={(e) => setTriviaDifficulty(e.target.value)} value={triviaDifficulty}>
-              <option value="placeholder" disabled>
-                Select Difficulty:
-              </option>
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-          </div>
-          <div className="formBox">
-            {/* <label htmlFor="triviaQuestionType">Question Type:</label> */}
-            {/* <input type="radio" id="triviaQuestionType" onChange={(e) => setTriviaQuestionType(e.target.value)} value={triviaQuestionType}> */}
-            <form className="radioQuestionType" onChange={(e) => setTriviaQuestionType(e.target.value)} value={triviaQuestionType}>
-              <div className="formBox">
-                <label htmlFor="boolean">True or False</label>
-                <input
-                  type="radio"
-                  id="boolean"
-                  name="triviaQuestionType"
-                  value="boolean"
-                  checked={triviaQuestionType === 'boolean'}
-                  onClick={(e) => setTriviaQuestionType(e.target.value)}
-                />
-              </div>
-              <div className="formBox">
-                <label htmlFor="multiple">Multiple Choice</label>
-                <input
-                  type="radio"
-                  id="multiple"
-                  name="triviaQuestionType"
-                  value="multiple"
-                  checked={triviaQuestionType === 'multiple'}
-                  onClick={(e) => setTriviaQuestionType(e.target.value)}
-                />
-              </div>
-            </form>
-          </div>
+          <fieldset className="formBox">
+            <legend className="triviaLabel">Difficulty:</legend>
+            <input
+              type="radio"
+              name="triviaDifficulty"
+              id="easy"
+              value="easy"
+              checked={triviaDifficulty === 'easy'}
+              onChange={(e) => setTriviaDifficulty(e.target.value)}
+            />
+            <label htmlFor="easy">Easy</label>
+
+            <input
+              type="radio"
+              name="triviaDifficulty"
+              id="medium"
+              value="medium"
+              checked={triviaDifficulty === 'medium'}
+              onChange={(e) => setTriviaDifficulty(e.target.value)}
+            />
+            <label htmlFor="medium">Medium</label>
+
+            <input
+              type="radio"
+              name="triviaDifficulty"
+              id="hard"
+              value="hard"
+              checked={triviaDifficulty === 'hard'}
+              onChange={(e) => setTriviaDifficulty(e.target.value)}
+            />
+            <label htmlFor="hard">Hard</label>
+          </fieldset>
+          <fieldset className="radioQuestionType">
+            <legend className="triviaLabel">Question Type:</legend>
+            <div className="formBox">
+              <input
+                type="radio"
+                id="boolean"
+                name="triviaQuestionType"
+                value="boolean"
+                checked={triviaQuestionType === 'boolean'}
+                onChange={(e) => setTriviaQuestionType(e.target.value)}
+                // onClick={(e) => setTriviaQuestionType(e.target.value)}
+              />
+              <label htmlFor="boolean">True or False</label>
+            </div>
+            <div className="formBox">
+              <input
+                type="radio"
+                id="multiple"
+                name="triviaQuestionType"
+                value="multiple"
+                checked={triviaQuestionType === 'multiple'}
+                onChange={(e) => setTriviaQuestionType(e.target.value)}
+                // onClick={(e) => setTriviaQuestionType(e.target.value)}
+              />
+              <label htmlFor="multiple">Multiple Choice</label>
+            </div>
+          </fieldset>
         </div>
         {/* On button press, take user choices and go to next page. */}
       </form>
       <div className="linkContainer">
-        <Link to="/" className="formButton">
-          Home
-        </Link>
-        <Link to="/gamesummary" className="formButton">
-          Game Summary
-        </Link>
         <Link to={`/game/${triviaCategory}/${triviaDifficulty}/${triviaQuestionType}`} onClick={checkGameSettings} className="formButton">
           Start Game
         </Link>

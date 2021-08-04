@@ -46,4 +46,15 @@ footer {
   bottom: 0;
   width: 100%;
   color: $navy;
+  a {
+    text-decoration: none;
+    color: $junoOrange;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    width: 95%;
+  }
 }

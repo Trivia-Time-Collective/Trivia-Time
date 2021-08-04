@@ -55,3 +55,9 @@ h1 {
     box-shadow: none;
   }
 }
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: calc(3.76rem + 13vw);
+  }
+}
