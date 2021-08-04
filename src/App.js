@@ -11,12 +11,10 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [listOfUsers, setListOfUsers] = useState([]);
-  const [fBListOfUsers, setFBListOfUsers] = useState([]);
-  console.log(fBListOfUsers);
+  const roomCode = 'ABC123';
 
-  // testing out firebase. not funnctional yet
+  // Access Firebase to update userList regularly
   useEffect(() => {
-    const roomCode = 'ABC123';
     const dbRef = firebase.database().ref(`sessions/${roomCode}`);
 
     dbRef.on('value', (snapshot) => {
@@ -28,13 +26,13 @@ function App() {
           key: objKey,
           username: myData[objKey].username,
           points: myData[objKey].points,
+          avatarImg: myData[objKey].avatarImg,
         };
         newArray.push(userObj);
       }
-      setFBListOfUsers(newArray);
+      setListOfUsers(newArray);
     });
   }, []);
-  //------------- end of test
 
   return (
     <Router>
@@ -44,26 +42,14 @@ function App() {
 
       <main className="wrapper">
         <Route exact path="/" component={Home} />
-        <Route
-          path="/lobby"
-          render={() => (
-            <Lobby listOfUsers={listOfUsers} setListOfUsers={setListOfUsers} />
-          )}
-        />
-        <Route
-          path="/game/:category/:difficulty/:questionType"
-          render={() => <Game listOfUsers={listOfUsers} />}
-        />
-        <Route
-          path="/gamesummary"
-          render={() => <GameSummary listOfUsers={listOfUsers} />}
-        />
+        <Route path="/lobby" render={() => <Lobby listOfUsers={listOfUsers} setListOfUsers={setListOfUsers} roomCode={roomCode} />} />
+        <Route path="/game/:category/:difficulty/:questionType" render={() => <Game listOfUsers={listOfUsers} />} />
+        <Route path="/gamesummary" render={() => <GameSummary listOfUsers={listOfUsers} />} />
       </main>
 
       <footer>
         <p>
-          Created at <a href="https://junocollege.com/">Juno College</a> by
-          Munira, Denzel, Andrew and Gavyn.
+          Created at <a href="https://junocollege.com/">Juno College</a> by Munira, Denzel, Andrew and Gavyn.
         </p>
       </footer>
     </Router>

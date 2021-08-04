@@ -28,8 +28,7 @@
   text-decoration: none;
   color: $lime-green;
 
-  text-shadow: 0 0 5px $turquoise, 0 0 10px $turquoise, 0 0 20px $turquoise,
-    0 0 40px $turquoise;
+  text-shadow: 0 0 5px $turquoise, 0 0 10px $turquoise, 0 0 20px $turquoise, 0 0 40px $turquoise;
 }
 .formButton:hover {
   animation: flicker 4s infinite;

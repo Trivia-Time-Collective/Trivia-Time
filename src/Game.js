@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
+// import firebase from './firebaseConfig.js';
 
 const Game = ({ listOfUsers }) => {
   const [questionsArray, setQuestionsArray] = useState([]);
@@ -18,8 +19,6 @@ const Game = ({ listOfUsers }) => {
   console.log(category, difficulty, questionType);
 
   const checkAnswer = (buttonValue) => {
-    console.log(buttonValue);
-
     if (buttonValue === answer) {
       listOfUsers[turnCounter].points += 1;
       setScore(listOfUsers[turnCounter].points);
@@ -27,20 +26,20 @@ const Game = ({ listOfUsers }) => {
     if (roundCounter < 9) {
       setRoundCounter(roundCounter + 1);
     } else {
-      swal(
-        'Round Complete!',
-        `Your score was ${listOfUsers[turnCounter].points}.`
-      );
+      swal('Round Complete!', `Your score was ${listOfUsers[turnCounter].points}.`);
       setRoundCounter(0);
       setScore(0);
       if (turnCounter < listOfUsers.length - 1) {
         setTurnCounter(turnCounter + 1);
       } else {
+        // redirects Router to GameSummary.js
         history.push('/gamesummary');
       }
     }
   };
 
+  // API call to retrieve set of 10 questions from Open Trivia DB
+  // When done, sets page to "isLoaded"
   useEffect(() => {
     axios({
       url: `https://opentdb.com/api.php`,
@@ -54,17 +53,14 @@ const Game = ({ listOfUsers }) => {
       },
     }).then((res) => {
       setQuestionsArray(res.data.results);
-      console.log(res.data.results);
       setIsLoaded(true);
     });
   }, [category, difficulty, questionType]);
 
+  // loads new set of questions on new round, or when page loads
   useEffect(() => {
     if (isLoaded) {
-      setChoices([
-        ...questionsArray[roundCounter].incorrect_answers,
-        questionsArray[roundCounter].correct_answer,
-      ]);
+      setChoices([...questionsArray[roundCounter].incorrect_answers, questionsArray[roundCounter].correct_answer]);
       setAnswer(questionsArray[roundCounter].correct_answer);
     }
   }, [roundCounter, isLoaded, questionsArray]);
@@ -86,14 +82,7 @@ const Game = ({ listOfUsers }) => {
       ></h3>
       <div className="triviaChoiceContainer">
         {choices.map((choice, index) => {
-          return (
-            <button
-              key={index}
-              className="triviaChoice"
-              onClick={() => checkAnswer(choice)}
-              dangerouslySetInnerHTML={{ __html: choice }}
-            ></button>
-          );
+          return <button key={index} className="triviaChoice" onClick={() => checkAnswer(choice)} dangerouslySetInnerHTML={{ __html: choice }}></button>;
         })}
       </div>
     </div>

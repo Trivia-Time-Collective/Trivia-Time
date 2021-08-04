@@ -2,21 +2,22 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
+import firebase from './firebaseConfig.js';
 
-const Lobby = ({ listOfUsers, setListOfUsers }) => {
+const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
   const [avatar, setAvatar] = useState('');
   const [usernameInput, setUsernameInput] = useState('');
   const [triviaCategory, setTriviaCategory] = useState('placeholder');
   const [triviaDifficulty, setTriviaDifficulty] = useState('placeholder');
   const [triviaQuestionType, setTriviaQuestionType] = useState('placeholder');
 
-  const removeUser = (userToDelete) => {
-    const newUserList = listOfUsers.filter((userObj) => {
-      return userObj.username !== userToDelete;
-    });
-    setListOfUsers(newUserList);
+  const userRef = firebase.database().ref(`sessions/${roomCode}`);
+
+  const removeUser = (userKeyToDelete) => {
+    userRef.child(userKeyToDelete).remove();
   };
 
+  // Check if usename is already taken and input is not empty, then push user to Firebase
   const addUser = (e) => {
     e.preventDefault();
     const userToAdd = usernameInput.trim();
@@ -32,8 +33,7 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
       newUser.username = userToAdd;
       newUser.points = 0;
       newUser.avatarImg = `https://robohash.org/${newUser.username}`;
-
-      setListOfUsers([...listOfUsers, newUser]);
+      userRef.push(newUser);
     } else if (usernameTaken) {
       swal('Whoops!', 'That username is taken.', 'warning');
     }
@@ -48,7 +48,6 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
     if (triviaDifficulty === 'placeholder') {
       errorMessage.push('trivia difficulty');
     }
-
     if (triviaQuestionType === 'placeholder') {
       errorMessage.push('trivia question type');
     }
@@ -66,6 +65,7 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
     }
   };
 
+  // Currently not in use
   useEffect(() => {
     axios({
       url: 'https://avatars.dicebear.com/api/bottts/test.svg',
@@ -75,20 +75,14 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
       setAvatar(res.data);
     });
   }, []);
+  //-------------------- end of not in use
 
   return (
     <div className="lobbyWrapper">
       <form className="addUserForm" onSubmit={addUser}>
         <div className="formBox">
           <label htmlFor="username">Enter a username:</label>
-          <input
-            type="text"
-            id="username"
-            placeholder="Enter username"
-            required
-            value={usernameInput}
-            onChange={(e) => setUsernameInput(e.target.value)}
-          />
+          <input type="text" id="username" placeholder="Enter username" required value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} />
         </div>
 
         <div className="formBox">
@@ -111,16 +105,14 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
                   <p className="userProfileName">{userObj.username}</p>
                   <div
                     className="removeUser"
-                    onClick={() => removeUser(userObj.username)}
+                    // for Firebase, remove user by key
+                    onClick={() => removeUser(userObj.key)}
                   >
                     Remove User
                   </div>
                 </div>
                 <div className="imageContainer">
-                  <img
-                    src={userObj.avatarImg}
-                    alt={`Avatar for ${userObj.username}`}
-                  />
+                  <img src={userObj.avatarImg} alt={`Avatar for ${userObj.username}`} />
                 </div>
               </li>
             );
@@ -131,11 +123,7 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
       <form className="triviaOptionsForm">
         <div className="formBox">
           <label htmlFor="triviaCategory">Select Category:</label>
-          <select
-            id="triviaCategory"
-            onChange={(e) => setTriviaCategory(e.target.value)}
-            value={triviaCategory}
-          >
+          <select id="triviaCategory" onChange={(e) => setTriviaCategory(e.target.value)} value={triviaCategory}>
             <option value="placeholder" disabled>
               Select Category:
             </option>
@@ -161,9 +149,7 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
             <option value="28">Vehicles</option>
             <option value="29">Entertainment: Comics</option>
             <option value="30">Science: Gadgets</option>
-            <option value="31">
-              Entertainment: Japanese Anime &amp; Manga
-            </option>
+            <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
             <option value="32">Entertainment: Cartoon &amp; Animations</option>
             {/* Try to access API to get category list */}
           </select>
@@ -172,11 +158,7 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
         <div className="formRow">
           <div className="formBox">
             <label htmlFor="triviaDifficulty">Select Difficulty</label>
-            <select
-              id="triviaDifficulty"
-              onChange={(e) => setTriviaDifficulty(e.target.value)}
-              value={triviaDifficulty}
-            >
+            <select id="triviaDifficulty" onChange={(e) => setTriviaDifficulty(e.target.value)} value={triviaDifficulty}>
               <option value="placeholder" disabled>
                 Select Difficulty:
               </option>
@@ -187,11 +169,7 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
           </div>
           <div className="formBox">
             <label htmlFor="triviaQuestionType">Select Question Type:</label>
-            <select
-              id="triviaQuestionType"
-              onChange={(e) => setTriviaQuestionType(e.target.value)}
-              value={triviaQuestionType}
-            >
+            <select id="triviaQuestionType" onChange={(e) => setTriviaQuestionType(e.target.value)} value={triviaQuestionType}>
               <option value="placeholder" disabled>
                 Select Q Type:
               </option>
@@ -209,11 +187,7 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
         <Link to="/gamesummary" className="formButton">
           Game Summary
         </Link>
-        <Link
-          to={`/game/${triviaCategory}/${triviaDifficulty}/${triviaQuestionType}`}
-          onClick={checkGameSettings}
-          className="formButton"
-        >
+        <Link to={`/game/${triviaCategory}/${triviaDifficulty}/${triviaQuestionType}`} onClick={checkGameSettings} className="formButton">
           Start Game
         </Link>
       </div>
