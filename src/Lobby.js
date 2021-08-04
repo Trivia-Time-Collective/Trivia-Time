@@ -8,8 +8,8 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
   const [avatar, setAvatar] = useState('');
   const [usernameInput, setUsernameInput] = useState('');
   const [triviaCategory, setTriviaCategory] = useState('placeholder');
-  const [triviaDifficulty, setTriviaDifficulty] = useState('placeholder');
-  const [triviaQuestionType, setTriviaQuestionType] = useState('placeholder');
+  const [triviaDifficulty, setTriviaDifficulty] = useState('easy');
+  const [triviaQuestionType, setTriviaQuestionType] = useState('multiple');
 
   const userRef = firebase.database().ref(`sessions/${roomCode}`);
 
@@ -78,7 +78,7 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
   //-------------------- end of not in use
 
   return (
-    <div className="lobbyWrapper">
+    <main className="wrapper lobbyContainer">
       <form className="addUserForm" onSubmit={addUser}>
         <div className="formBox">
           <label htmlFor="username">Enter a username:</label>
@@ -122,7 +122,7 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
 
       <form className="triviaOptionsForm">
         <div className="formBox">
-          <label htmlFor="triviaCategory">Select Category:</label>
+          <label htmlFor="triviaCategory">Category:</label>
           <select id="triviaCategory" onChange={(e) => setTriviaCategory(e.target.value)} value={triviaCategory}>
             <option value="placeholder" disabled>
               Select Category:
@@ -157,7 +157,7 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
 
         <div className="formRow">
           <div className="formBox">
-            <label htmlFor="triviaDifficulty">Select Difficulty</label>
+            <label htmlFor="triviaDifficulty">Difficulty</label>
             <select id="triviaDifficulty" onChange={(e) => setTriviaDifficulty(e.target.value)} value={triviaDifficulty}>
               <option value="placeholder" disabled>
                 Select Difficulty:
@@ -168,14 +168,32 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
             </select>
           </div>
           <div className="formBox">
-            <label htmlFor="triviaQuestionType">Select Question Type:</label>
-            <select id="triviaQuestionType" onChange={(e) => setTriviaQuestionType(e.target.value)} value={triviaQuestionType}>
-              <option value="placeholder" disabled>
-                Select Q Type:
-              </option>
-              <option value="boolean">True or False</option>
-              <option value="multiple">Multiple Choice</option>
-            </select>
+            {/* <label htmlFor="triviaQuestionType">Question Type:</label> */}
+            {/* <input type="radio" id="triviaQuestionType" onChange={(e) => setTriviaQuestionType(e.target.value)} value={triviaQuestionType}> */}
+            <form className="radioQuestionType" onChange={(e) => setTriviaQuestionType(e.target.value)} value={triviaQuestionType}>
+              <div className="formBox">
+                <label htmlFor="boolean">True or False</label>
+                <input
+                  type="radio"
+                  id="boolean"
+                  name="triviaQuestionType"
+                  value="boolean"
+                  checked={triviaQuestionType === 'boolean'}
+                  onClick={(e) => setTriviaQuestionType(e.target.value)}
+                />
+              </div>
+              <div className="formBox">
+                <label htmlFor="multiple">Multiple Choice</label>
+                <input
+                  type="radio"
+                  id="multiple"
+                  name="triviaQuestionType"
+                  value="multiple"
+                  checked={triviaQuestionType === 'multiple'}
+                  onClick={(e) => setTriviaQuestionType(e.target.value)}
+                />
+              </div>
+            </form>
           </div>
         </div>
         {/* On button press, take user choices and go to next page. */}
@@ -191,7 +209,7 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
           Start Game
         </Link>
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -11,7 +11,7 @@
   flex-direction: column;
   width: 100%;
   max-width: 600px;
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
 .formButton {
@@ -20,7 +20,8 @@
   background-color: transparent;
   box-shadow: 0 0 0.5rem $white, inset 0 0 0.5rem $white, 0 0 5rem $turquoise;
   height: 3rem;
-  margin: 5px 0;
+  margin: 20px 0;
+  white-space: nowrap;
 
   font-family: $body-font;
   font-size: calc(2rem + 0.5vw);
@@ -58,6 +59,7 @@
   select {
     margin: 5px 0;
     height: 2.5rem;
+    text-align: center;
   }
 }
 
@@ -74,17 +76,10 @@
 
 // Andrew's code from playerProfile
 
-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.lobbyWrapper {
+.lobbyContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
 }
 
 .contestantsContainer {
@@ -130,5 +125,21 @@ main {
   img {
     width: 100%;
     height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .linkContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .triviaOptionsForm {
+    .formRow {
+      flex-direction: column;
+      .formBox {
+        width: inherit;
+      }
+    }
   }
 }

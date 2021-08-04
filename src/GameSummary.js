@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const GameSummary = ({ listOfUsers }) => {
   return (
-    <div className="summaryWrapper">
+    <main className="wrapper summaryWrapper">
       <h2>Game Summary:</h2>
       <div className="playerContainer">
         {listOfUsers.map((userObj) => {
@@ -29,7 +29,7 @@ const GameSummary = ({ listOfUsers }) => {
           Leaderboard
         </Link>
       </div>
-    </div>
+    </main>
   );
 };
 export default GameSummary;

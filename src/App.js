@@ -39,12 +39,10 @@ function App() {
         <h1>Trivia Time</h1>
       </header>
 
-      <main className="wrapper">
-        <Route exact path="/" component={Home} />
-        <Route path="/lobby" render={() => <Lobby listOfUsers={listOfUsers} setListOfUsers={setListOfUsers} roomCode={roomCode} />} />
-        <Route path="/game/:category/:difficulty/:questionType" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} />} />
-        <Route path="/gamesummary" render={() => <GameSummary listOfUsers={listOfUsers} />} />
-      </main>
+      <Route exact path="/" component={Home} />
+      <Route path="/lobby" render={() => <Lobby listOfUsers={listOfUsers} setListOfUsers={setListOfUsers} roomCode={roomCode} />} />
+      <Route path="/game/:category/:difficulty/:questionType" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} />} />
+      <Route path="/gamesummary" render={() => <GameSummary listOfUsers={listOfUsers} />} />
 
       <footer>
         <p>

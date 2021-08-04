@@ -23,13 +23,14 @@ const Game = ({ listOfUsers, roomCode }) => {
       const pointsSnapshot = await currentUserRef.child('points').get();
       const updatedPoints = pointsSnapshot.val() + 1;
       currentUserRef.update({ points: updatedPoints });
+      setScore(updatedPoints);
     }
     if (roundCounter < 9) {
       setRoundCounter(roundCounter + 1);
     } else {
       // get a new snapshot in case final question was answered correctly
       const pointsSnapshot = await currentUserRef.child('points').get();
-      swal('Round Complete!', `Your score was ${pointsSnapshot.val()}.`);
+      await swal('Round Complete!', `Your score was ${pointsSnapshot.val()}.`);
       setRoundCounter(0);
       setScore(0);
       if (turnCounter < listOfUsers.length - 1) {
@@ -70,8 +71,8 @@ const Game = ({ listOfUsers, roomCode }) => {
 
   // On page load, loops through all users to ensure that points are at 0 (since users now persist on Firebase)
   useEffect(() => {
-    for (let userObj of listOfUsers) {
-      const userRef = firebase.database().ref(`sessions/${roomCode}/${userObj.key}`);
+    for (let { key } of listOfUsers) {
+      const userRef = firebase.database().ref(`sessions/${roomCode}/${key}`);
       userRef.update({ points: 0 });
     }
     console.log('user scores reset');
@@ -83,7 +84,7 @@ const Game = ({ listOfUsers, roomCode }) => {
       <h2>Loading...</h2>
     </div>
   ) : (
-    <div className="gamePage">
+    <main className="wrapper gamePage">
       <div className="currentUser">
         <p>{`${listOfUsers[turnCounter].username}'s turn`}</p>
         <p>Score: {score}</p>
@@ -98,7 +99,7 @@ const Game = ({ listOfUsers, roomCode }) => {
           return <button key={index} className="triviaChoice" onClick={() => checkAnswer(choice)} dangerouslySetInnerHTML={{ __html: choice }}></button>;
         })}
       </div>
-    </div>
+    </main>
   );
 };
 
