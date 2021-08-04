@@ -13,12 +13,10 @@ h1 {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center;
 }
 
 .button {
   text-align: center;
-  min-width: 50%;
   padding: 10px;
   margin: 30px;
   border: 2px solid $white;

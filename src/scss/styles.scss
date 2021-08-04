@@ -4,6 +4,7 @@
 @import './lobby';
 @import './playerProfiles.scss';
 @import './game';
+@import './gameSummary';
 
 html {
   font-size: 62.5%;
@@ -45,4 +46,5 @@ footer {
   position: relative;
   bottom: 0;
   width: 100%;
+  color: $navy;
 }
