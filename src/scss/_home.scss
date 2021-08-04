@@ -15,7 +15,7 @@ h1 {
   flex-direction: column;
 }
 
-.button {
+.button{
   text-align: center;
   padding: 10px;
   margin: 30px;
@@ -27,6 +27,7 @@ h1 {
   text-transform: uppercase;
   text-decoration: none;
   color: $lime-green;
+  background-color: transparent;
 
   text-shadow: 0 0 5px $turquoise, 0 0 10px $turquoise, 0 0 20px $turquoise, 0 0 40px $turquoise;
 }
