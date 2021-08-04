@@ -1,20 +1,16 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 import firebase from './firebaseConfig.js';
 
-const Game = ({ listOfUsers, roomCode }) => {
-  const [questionsArray, setQuestionsArray] = useState([]);
+const Game = ({ listOfUsers, roomCode, questionsArray }) => {
   const [choices, setChoices] = useState([]);
   const [answer, setAnswer] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [roundCounter, setRoundCounter] = useState(0);
   const [turnCounter, setTurnCounter] = useState(0);
   const [score, setScore] = useState(0);
 
   const history = useHistory();
-  const { category, difficulty, questionType } = useParams();
   // Get Firebase reference to points value for current user
   const currentUserRef = firebase.database().ref(`sessions/${roomCode}/${listOfUsers[turnCounter].key}`);
 
@@ -42,32 +38,11 @@ const Game = ({ listOfUsers, roomCode }) => {
     }
   };
 
-  // API call to retrieve set of 10 questions from Open Trivia DB
-  // When done, sets page to "isLoaded"
-  useEffect(() => {
-    axios({
-      url: `https://opentdb.com/api.php`,
-      method: 'GET',
-      dataResponse: 'json',
-      params: {
-        amount: 10,
-        category: category,
-        difficulty: difficulty,
-        type: questionType,
-      },
-    }).then((res) => {
-      setQuestionsArray(res.data.results);
-      setIsLoaded(true);
-    });
-  }, [category, difficulty, questionType]);
-
   // loads new set of questions on new round, or when page loads
   useEffect(() => {
-    if (isLoaded) {
-      setChoices([...questionsArray[roundCounter].incorrect_answers, questionsArray[roundCounter].correct_answer]);
-      setAnswer(questionsArray[roundCounter].correct_answer);
-    }
-  }, [roundCounter, isLoaded, questionsArray]);
+    setChoices([...questionsArray[roundCounter].incorrect_answers, questionsArray[roundCounter].correct_answer]);
+    setAnswer(questionsArray[roundCounter].correct_answer);
+  }, [roundCounter, questionsArray]);
 
   // On page load, loops through all users to ensure that points are at 0 (since users now persist on Firebase)
   useEffect(() => {
@@ -79,11 +54,7 @@ const Game = ({ listOfUsers, roomCode }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return !isLoaded ? (
-    <div>
-      <h2>Loading...</h2>
-    </div>
-  ) : (
+  return (
     <main className="wrapper gamePage">
       <div className="currentUser">
         <p>{`${listOfUsers[turnCounter].username}'s turn`}</p>

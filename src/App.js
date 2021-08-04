@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [listOfUsers, setListOfUsers] = useState([]);
+  const [questionsArray, setQuestionsArray] = useState([]);
   const roomCode = 'ABC123';
 
   // Access Firebase to update userList regularly
@@ -40,8 +41,8 @@ function App() {
       </header>
 
       <Route exact path="/" component={Home} />
-      <Route path="/lobby" render={() => <Lobby listOfUsers={listOfUsers} setListOfUsers={setListOfUsers} roomCode={roomCode} />} />
-      <Route path="/game/:category/:difficulty/:questionType" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} />} />
+      <Route path="/lobby" render={() => <Lobby listOfUsers={listOfUsers} roomCode={roomCode} setQuestionsArray={setQuestionsArray} />} />
+      <Route path="/game" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} questionsArray={questionsArray} />} />
       <Route path="/gamesummary" render={() => <GameSummary listOfUsers={listOfUsers} />} />
 
       <footer>

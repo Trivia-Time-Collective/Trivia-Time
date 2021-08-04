@@ -1,15 +1,17 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 import firebase from './firebaseConfig.js';
+import axios from 'axios';
 
-const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
-  const [avatar, setAvatar] = useState('');
+import User from './User.js';
+
+const Lobby = ({ listOfUsers, roomCode, setQuestionsArray }) => {
   const [usernameInput, setUsernameInput] = useState('');
   const [triviaCategory, setTriviaCategory] = useState('placeholder');
   const [triviaDifficulty, setTriviaDifficulty] = useState('easy');
   const [triviaQuestionType, setTriviaQuestionType] = useState('multiple');
+  const history = useHistory();
 
   const userRef = firebase.database().ref(`sessions/${roomCode}`);
 
@@ -40,42 +42,63 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
     setUsernameInput('');
   };
 
+  // Before making axios call, check if all form categories have been completed or selected
+  // if any fields in form are empty, return false, if forms are completed return true
   const checkGameSettings = (e) => {
     let errorMessage = [];
     if (triviaCategory === 'placeholder') {
       errorMessage.push('trivia category');
     }
-    if (triviaDifficulty === 'placeholder') {
-      errorMessage.push('trivia difficulty');
-    }
-    if (triviaQuestionType === 'placeholder') {
-      errorMessage.push('trivia question type');
-    }
     if (listOfUsers.length <= 0) {
       errorMessage.push('must have at least one user');
     }
-
     if (errorMessage.length > 0) {
-      e.preventDefault();
       swal({
         title: 'The following fields are missing:',
         text: '- ' + errorMessage.join('\n - '),
         icon: 'warning',
       });
+      return false;
+    } else {
+      return true;
     }
   };
 
-  // Currently not in use
-  useEffect(() => {
-    axios({
-      url: 'https://avatars.dicebear.com/api/bottts/test.svg',
-      method: 'GET',
-      dataResponse: 'json',
-    }).then((res) => {
-      setAvatar(res.data);
-    });
-  }, []);
-  //-------------------- end of not in use
+  // Make an axios call to Open Trivia API. If not enough results are found, catch error and allow user to select a new category
+  const loadTriviaQuestions = (e) => {
+    e.preventDefault();
+    const formsFilled = checkGameSettings(e);
+    if (formsFilled) {
+      axios({
+        url: `https://opentdb.com/api.php`,
+        method: 'GET',
+        dataResponse: 'json',
+        params: {
+          amount: 10,
+          category: triviaCategory,
+          difficulty: triviaDifficulty,
+          type: triviaQuestionType,
+        },
+      })
+        .then((res) => {
+          // error code 1 from API means: Could not return results. The API doesn't have enough questions for your query. (Ex. Asking for 50 Questions in a Category that only has 20.)
+          if (res.data.response_code === 1) {
+            throw new Error('Not enough results for this Trivia Category. Please select something else.');
+          } else {
+            setQuestionsArray(res.data.results);
+            // since e.preventDefault has been executed, use useHistory to forward to next page
+            history.push('/game');
+          }
+        })
+        .catch((error) => {
+          swal({
+            title: 'Error',
+            text: error.message,
+            icon: 'error',
+          });
+        });
+    }
+  };
 
   return (
     <main className="wrapper lobbyContainer">
@@ -93,27 +116,10 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
           Add User
         </button>
       </form>
-      {/* <div className="avatar" dangerouslySetInnerHTML={{ __html: avatar }} /> */}
       <div className="contestantsContainer">
         <ul className="userProfileList">
           {listOfUsers.map((userObj, index) => {
-            return (
-              <li className="userProfile" key={index}>
-                <div>
-                  <p className="userProfileName">{userObj.username}</p>
-                  <div
-                    className="removeUser"
-                    // for Firebase, remove user by key
-                    onClick={() => removeUser(userObj.key)}
-                  >
-                    Remove User
-                  </div>
-                </div>
-                <div className="imageContainer">
-                  <img src={userObj.avatarImg} alt={`Avatar for ${userObj.username}`} />
-                </div>
-              </li>
-            );
+            return <User userObj={userObj} index={index} removeUser={removeUser} key={index} />;
           })}
         </ul>
       </div>
@@ -201,7 +207,6 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
                 value="boolean"
                 checked={triviaQuestionType === 'boolean'}
                 onChange={(e) => setTriviaQuestionType(e.target.value)}
-              // onClick={(e) => setTriviaQuestionType(e.target.value)}
               />
               <label htmlFor="boolean">True or False</label>
             </div>
@@ -213,16 +218,14 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
                 value="multiple"
                 checked={triviaQuestionType === 'multiple'}
                 onChange={(e) => setTriviaQuestionType(e.target.value)}
-              // onClick={(e) => setTriviaQuestionType(e.target.value)}
               />
               <label htmlFor="multiple">Multiple Choice</label>
             </div>
           </fieldset>
         </div>
-        {/* On button press, take user choices and go to next page. */}
       </form>
       <div className="linkContainer">
-        <Link to={`/game/${triviaCategory}/${triviaDifficulty}/${triviaQuestionType}`} onClick={checkGameSettings} className="formButton">
+        <Link to={`/game`} onClick={loadTriviaQuestions} className="formButton">
           Start Game
         </Link>
       </div>
