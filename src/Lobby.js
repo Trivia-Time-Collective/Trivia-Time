@@ -117,7 +117,11 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
           })}
         </ul>
       </div>
-      <h3>Select your Trivia Options</h3>
+      <div className="optionsTitleContainer">
+        <div className="optionsTitleBorder"></div>
+        <h3>Select your Trivia Options</h3>
+        <div className="optionsTitleBorder"></div>
+      </div>
       <form className="triviaOptionsForm">
         <div className="formBox">
           <label className="triviaLabel" htmlFor="triviaCategory">
@@ -197,7 +201,7 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
                 value="boolean"
                 checked={triviaQuestionType === 'boolean'}
                 onChange={(e) => setTriviaQuestionType(e.target.value)}
-                // onClick={(e) => setTriviaQuestionType(e.target.value)}
+              // onClick={(e) => setTriviaQuestionType(e.target.value)}
               />
               <label htmlFor="boolean">True or False</label>
             </div>
@@ -209,7 +213,7 @@ const Lobby = ({ listOfUsers, setListOfUsers, roomCode }) => {
                 value="multiple"
                 checked={triviaQuestionType === 'multiple'}
                 onChange={(e) => setTriviaQuestionType(e.target.value)}
-                // onClick={(e) => setTriviaQuestionType(e.target.value)}
+              // onClick={(e) => setTriviaQuestionType(e.target.value)}
               />
               <label htmlFor="multiple">Multiple Choice</label>
             </div>

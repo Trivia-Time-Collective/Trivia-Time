@@ -25,6 +25,23 @@
   }
 }
 
+.optionsTitleContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 90%;
+  h3 {
+    padding: 6px;
+    white-space: nowrap;
+
+  }
+  .optionsTitleBorder {
+    border-bottom: 3px solid white;
+    width: 30%;
+  }
+}
+
+
 .triviaOptionsForm {
   display: flex;
   flex-direction: column;
