@@ -17,7 +17,11 @@
   justify-content: space-between;
   font-family: $body-font;
   color: $lime-green;
-  text-shadow: 0 0 5px $turquoise, 0 0 10px $turquoise, 0 0 20px $turquoise, 0 0 40px $turquoise;
+  text-shadow: 
+  0 0 5px $turquoise, 
+  0 0 10px $turquoise, 
+  0 0 20px $turquoise, 
+  0 0 40px $turquoise;
   font-size: 3rem;
 }
 
@@ -40,4 +44,17 @@
   border: 4px solid $white;
   border-radius: 10rem;
   box-shadow: 0 0 0.5rem $white, inset 0 0 0.5rem $white;
+}
+
+.clockTimer {
+  display: flex;
+  justify-content: center;
+  font-family: $body-font;
+  color: $lime-green;
+  text-shadow: 
+  0 0 5px $turquoise, 
+  0 0 10px $turquoise, 
+  0 0 20px $turquoise, 
+  0 0 40px $turquoise;
+  font-size: 3rem;
 }
