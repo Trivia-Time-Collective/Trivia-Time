@@ -102,6 +102,7 @@ const Lobby = ({ listOfUsers, roomCode, setQuestionsArray }) => {
 
   return (
     <main className="wrapper lobbyContainer">
+      <h2>Room #{roomCode}</h2>
       <Link to="/" className="formButton">
         Home
       </Link>

@@ -13,7 +13,7 @@ import { useState, useEffect } from 'react';
 function App() {
   const [listOfUsers, setListOfUsers] = useState([]);
   const [questionsArray, setQuestionsArray] = useState([]);
-  const roomCode = 'ABC123';
+  const [roomCode, setRoomCode] = useState('ABC123');
 
   // Access Firebase to update userList regularly
   useEffect(() => {
@@ -33,7 +33,7 @@ function App() {
       }
       setListOfUsers(newArray);
     });
-  }, []);
+  }, [roomCode]);
 
   return (
     <Router>
@@ -41,11 +41,11 @@ function App() {
         <h1>Trivia Time</h1>
       </header>
 
-      <Route exact path="/" component={Home} />
+      <Route exact path="/" render={() => <Home setRoomCode={setRoomCode} />} />
       <Route path="/lobby" render={() => <Lobby listOfUsers={listOfUsers} roomCode={roomCode} setQuestionsArray={setQuestionsArray} />} />
       <Route path="/game" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} questionsArray={questionsArray} />} />
       <Route path="/gamesummary" render={() => <GameSummary listOfUsers={listOfUsers} />} />
-      <Route path="/leaderboard" render={() => <Leaderboard/>}/>
+      <Route path="/leaderboard" render={() => <Leaderboard />} />
 
       <footer>
         <p>
