@@ -1,6 +1,26 @@
 import { Link } from 'react-router-dom';
+import firebase from './firebaseConfig.js';
+import {useEffect, useState} from 'react';
 
 const GameSummary = ({ listOfUsers }) => {
+
+  const [isAddedToFB, setIsAddedToFB] = useState(false);
+
+  useEffect(() => {
+    if (!isAddedToFB) {
+
+    const leaderboardRef = firebase.database().ref('leaderboard');
+    for (const userObj of listOfUsers) {
+      leaderboardRef.push({
+        username: userObj.username,
+        points: userObj.points
+      })
+    }
+    setIsAddedToFB(true)
+  }
+  }, [])
+
+
   return (
     <main className="wrapper summaryWrapper">
       <h2>Game Summary:</h2>

@@ -5,6 +5,7 @@ import Home from './Home';
 import Lobby from './Lobby';
 import Game from './Game';
 import GameSummary from './GameSummary';
+import Leaderboard from './Leaderboard';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -44,6 +45,7 @@ function App() {
       <Route path="/lobby" render={() => <Lobby listOfUsers={listOfUsers} roomCode={roomCode} setQuestionsArray={setQuestionsArray} />} />
       <Route path="/game" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} questionsArray={questionsArray} />} />
       <Route path="/gamesummary" render={() => <GameSummary listOfUsers={listOfUsers} />} />
+      <Route path="/leaderboard" render={() => <Leaderboard/>}/>
 
       <footer>
         <p>
