@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 import firebase from './firebaseConfig.js';
+import TriviaQuestion from './TriviaQuestion.js';
 
 const Game = ({ listOfUsers, roomCode, questionsArray }) => {
-  const [choices, setChoices] = useState([]);
-  const [isChoicesSet, setIsChoicesSet] = useState(false);
-  const [answer, setAnswer] = useState([]);
   const [roundCounter, setRoundCounter] = useState(0);
   const [turnCounter, setTurnCounter] = useState(0);
+  const [answer, setAnswer] = useState([]);
   const [score, setScore] = useState(0);
+  const [showTimer, setShowTimer] = useState(true);
 
   const history = useHistory();
   // Get Firebase reference to points value for current user
@@ -27,9 +27,18 @@ const Game = ({ listOfUsers, roomCode, questionsArray }) => {
     } else {
       // get a new snapshot in case final question was answered correctly
       const pointsSnapshot = await currentUserRef.child('points').get();
-      await swal('Round Complete!', `Your score was ${pointsSnapshot.val()}.`);
+      // hide timer while awaiting user Modal click
+      setShowTimer(false);
+      // determine next player
+      const nextPlayer = listOfUsers[turnCounter + 1] !== undefined ? listOfUsers[turnCounter + 1].username : '';
+      await swal({
+        title: 'Round Complete!',
+        text: `Your score was ${pointsSnapshot.val()}. ${nextPlayer ? `\nPass the game to the next player: ${nextPlayer}` : ''}`,
+        className: 'swal-centered',
+      });
       setRoundCounter(0);
       setScore(0);
+      setShowTimer(true);
       if (turnCounter < listOfUsers.length - 1) {
         setTurnCounter(turnCounter + 1);
       } else {
@@ -38,29 +47,10 @@ const Game = ({ listOfUsers, roomCode, questionsArray }) => {
       }
     }
   };
-
-  // loads new set of questions on new round, or when page loads
-  useEffect(() => {
-    setChoices([...questionsArray[roundCounter].incorrect_answers, questionsArray[roundCounter].correct_answer]);
-    setIsChoicesSet(!isChoicesSet);
-    setAnswer(questionsArray[roundCounter].correct_answer);
-  }, [roundCounter, questionsArray]);
-
-  // Randomizes choices array
-  useEffect(() => {
-    function randomChoices(choices) {
-      for (let i = choices.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [choices[i], choices[j]] = [choices[j], choices[i]];
-      }
-      console.log(choices);
-    }
-    randomChoices(choices);
-  }, [isChoicesSet]);
-
+  
   // On page load, loops through all users to ensure that points are at 0 (since users now persist on Firebase)
   useEffect(() => {
-    for (let { key } of listOfUsers) {
+    for (const { key } of listOfUsers) {
       const userRef = firebase.database().ref(`sessions/${roomCode}/${key}`);
       userRef.update({ points: 0 });
     }
@@ -74,16 +64,7 @@ const Game = ({ listOfUsers, roomCode, questionsArray }) => {
         <p>{`${listOfUsers[turnCounter].username}'s turn`}</p>
         <p>Score: {score}</p>
       </div>
-      <h3
-        dangerouslySetInnerHTML={{
-          __html: questionsArray[roundCounter].question,
-        }}
-      ></h3>
-      <div className="triviaChoiceContainer">
-        {choices.map((choice, index) => {
-          return <button key={index} className="triviaChoice" onClick={() => checkAnswer(choice)} dangerouslySetInnerHTML={{ __html: choice }}></button>;
-        })}
-      </div>
+      <TriviaQuestion currentQuestionObj={questionsArray[roundCounter]} setAnswer={setAnswer} checkAnswer={checkAnswer} showTimer={showTimer} />
     </main>
   );
 };

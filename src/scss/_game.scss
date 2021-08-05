@@ -8,6 +8,10 @@
   }
 }
 
+.swal-centered .swal-text {
+  text-align: center;
+}
+
 .currentUser {
   display: flex;
   justify-content: space-between;
@@ -30,4 +34,10 @@
   border: 1px solid black;
   margin: 20px;
   flex: 1 1 410px;
+  background-color: $pale-green;
+  font-family: $body-font;
+  font-size: 2.5rem;
+  border: 4px solid $white;
+  border-radius: 10rem;
+  box-shadow: 0 0 0.5rem $white, inset 0 0 0.5rem $white;
 }

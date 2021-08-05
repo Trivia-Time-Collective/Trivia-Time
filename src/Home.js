@@ -12,14 +12,16 @@ const Home = ({ setRoomCode }) => {
   const showInstructions = () => {
     swal({
       icon: 'info',
+      title: "How to play:",
       text: `
-      - Click Play Now
-      - Enter a user name and choose an avatar
-      - Choose a category, difficulty and question type
-      - Answer all questions within the time limit 
-      - When your turn is complete pass the phone to /n
+      • Host a game and invite your friends
+      • Or enter a custom game code and join room
+      • Enter a username
+      • Choose a category, difficulty and question type
+      • Answer all questions within the time limit 
+      • When your turn is complete pass the phone to
        the next player  on your team
-      - Impress all your friends with your trivia knowledge!`,
+      • Impress all your friends with your trivia knowledge!`,
     });
   };
 
