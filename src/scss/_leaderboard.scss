@@ -1,0 +1,61 @@
+.leaderboardUl {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  list-style-type: none;
+}
+
+.leaderboardLi {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 2px #affc41 solid;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.leaderboardName {
+  color: white;
+  font-family: $body-font;
+  margin: 0px;
+  font-size: 30px;
+}
+
+.leaderboardPoints {
+  margin: 0px;
+  font-size: 30px;
+  font-family: $body-font;
+}
+
+.leaderboardh2 {
+  font-family: 'Roboto', sans-serif;
+  color: #affc41;
+  font-size: 5rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.leaderboardMain {
+  .fas.fa-award {
+    color: white;
+    font-size: 25px;
+
+    color: red;
+    font-size: 25px;
+    width: 20px;
+    height: 20px;
+  }
+
+  i {
+    color: white;
+    font-size: 25px;
+    color: red;
+    font-size: 25px;
+    width: 20px;
+    height: 20px;
+  }
+}

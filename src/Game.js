@@ -42,7 +42,7 @@ const Game = ({ listOfUsers, roomCode, questionsArray }) => {
   // loads new set of questions on new round, or when page loads
   useEffect(() => {
     setChoices([...questionsArray[roundCounter].incorrect_answers, questionsArray[roundCounter].correct_answer]);
-    setIsChoicesSet(!isChoicesSet)
+    setIsChoicesSet(!isChoicesSet);
     setAnswer(questionsArray[roundCounter].correct_answer);
   }, [roundCounter, questionsArray]);
 
@@ -53,10 +53,10 @@ const Game = ({ listOfUsers, roomCode, questionsArray }) => {
         const j = Math.floor(Math.random() * (i + 1));
         [choices[i], choices[j]] = [choices[j], choices[i]];
       }
-      console.log(choices)
+      console.log(choices);
     }
-    randomChoices(choices)
-  }, [isChoicesSet])
+    randomChoices(choices);
+  }, [isChoicesSet]);
 
   // On page load, loops through all users to ensure that points are at 0 (since users now persist on Firebase)
   useEffect(() => {
