@@ -44,12 +44,12 @@ const TriviaQuestion = ({ currentQuestionObj, checkAnswer, setAnswer, showTimer 
 
   return (
     <div className="triviaQuestion">
+      {showTimer ? <p className="clockTimer">00:{countdownTimer}</p> : null}
       <h3
         dangerouslySetInnerHTML={{
           __html: question,
         }}
       ></h3>
-      {showTimer ? <p>Time left: {countdownTimer}</p> : null}
       <div className="triviaChoiceContainer">
         {choices.map((choice, index) => {
           return <button key={index} className="triviaChoice" onClick={() => checkAnswer(choice)} dangerouslySetInnerHTML={{ __html: choice }}></button>;
