@@ -47,7 +47,7 @@ const Game = ({ listOfUsers, roomCode, questionsArray }) => {
       }
     }
   };
-
+  
   // On page load, loops through all users to ensure that points are at 0 (since users now persist on Firebase)
   useEffect(() => {
     for (const { key } of listOfUsers) {
