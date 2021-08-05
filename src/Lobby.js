@@ -95,6 +95,7 @@ const Lobby = ({ listOfUsers, roomCode, setQuestionsArray }) => {
             title: 'Error',
             text: error.message,
             icon: 'error',
+            className: 'swal-centered',
           });
         });
     }
