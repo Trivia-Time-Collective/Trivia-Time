@@ -7,12 +7,25 @@
   padding: 0px;
 }
 
-h2 {
-  font-family: $header-font;
-  color: $lime-green;
-  font-size: 5rem;
-  text-transform: uppercase;
+.playerContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.userProfileName,
+.userPoints {
+  font-family: $body-font;
+}
+
+.userPoints {
+  font-size: 2rem;
   text-align: center;
+  margin: 0.5rem 0;
+  color: $white;
+  font-family: $body-font;
 }
 
 .summaryPageLinks {
@@ -21,30 +34,9 @@ h2 {
   justify-content: center;
   align-items: center;
   max-width: 900px;
-
   .button {
     cursor: pointer;
     flex: 0 1 240px;
     white-space: nowrap;
   }
-}
-
-.userPoints {
-  font-size: 2rem;
-  text-align: center;
-  margin: 0px;
-  color: $white;
-  font-family: $body-font;
-}
-
-.playerContainer {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-}
-
-.userProfileName, .userPoints {
-  font-family: $body-font;
 }

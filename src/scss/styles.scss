@@ -15,6 +15,7 @@ html {
 
 body {
   font-size: 1.6rem;
+  font-family: $body-font;
 }
 
 #root {
@@ -31,6 +32,14 @@ body {
 }
 
 header {
+  text-align: center;
+}
+
+h2 {
+  font-family: $header-font;
+  color: $lime-green;
+  font-size: 5rem;
+  text-transform: uppercase;
   text-align: center;
 }
 

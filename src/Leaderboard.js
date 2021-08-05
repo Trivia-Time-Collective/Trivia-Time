@@ -1,6 +1,33 @@
 import firebase from './firebaseConfig.js';
 import { useEffect, useState } from 'react';
 
+const categoryLookupObject = {
+  9: 'General Knowledge',
+  10: 'Entertainment: Books',
+  11: 'Entertainment: Film',
+  12: 'Entertainment: Music',
+  13: 'Entertainment: Musicals &amp; Theatres',
+  14: 'Entertainment: Television',
+  15: 'Entertainment: Video Games',
+  16: 'Entertainment: Board Games',
+  17: 'Science &amp; Nature',
+  18: 'Science: Computers',
+  19: 'Science: Mathematics',
+  20: 'Mythology',
+  21: 'Sports',
+  22: 'Geography',
+  23: 'History',
+  24: 'Politics',
+  25: 'Art',
+  26: 'Celebrities',
+  27: 'Animals',
+  28: 'Vehicles',
+  29: 'Entertainment: Comics',
+  30: 'Science: Gadgets',
+  31: 'Entertainment: Japanese Anime &amp; Manga',
+  32: 'Entertainment: Cartoon &amp; Animations',
+};
+
 const Leaderboard = () => {
   const [leaderboardList, setLeaderboardList] = useState([]);
 
@@ -15,25 +42,29 @@ const Leaderboard = () => {
           key: key,
           username: leaderboardData[key].username,
           points: leaderboardData[key].points,
+          difficulty: leaderboardData[key].difficulty,
+          category: categoryLookupObject[leaderboardData[key].category],
         };
         newArray.push(userObj);
       }
       newArray.sort((a, b) => a.points < b.points);
       setLeaderboardList(newArray);
-      console.log(leaderboardList);
-
     });
   }, []);
 
   return (
-    <main className="leaderboardMain">
-      <h2 className="leaderboardh2">leaderboard!</h2>
-      <ul className="leaderboardUl">
+    <main className="wrapper leaderboardMain">
+      <h2>leaderboard</h2>
+      <ul>
         {leaderboardList.map((leaderboardObj) => {
           return (
-            <li className="leaderboardLi" key={leaderboardObj.key}>
-              <p className="leaderboardName">Name: {leaderboardObj.username}</p>
-              <p className="leaderboardPoints">Points: {leaderboardObj.points}</p>
+            <li key={leaderboardObj.key}>
+              <h3 className="leaderboardName">{leaderboardObj.username}</h3>
+              <p className="leaderboardPoints">{leaderboardObj.points} Points</p>
+              <h4>Category</h4>
+              <p>{leaderboardObj.category}</p>
+              <h4>Difficulty</h4>
+              <p>{leaderboardObj.difficulty}</p>
             </li>
           );
         })}

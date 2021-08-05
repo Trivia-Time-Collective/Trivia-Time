@@ -13,6 +13,8 @@ import { useState, useEffect } from 'react';
 function App() {
   const [listOfUsers, setListOfUsers] = useState([]);
   const [questionsArray, setQuestionsArray] = useState([]);
+  const [triviaCategory, setTriviaCategory] = useState('placeholder');
+  const [triviaDifficulty, setTriviaDifficulty] = useState('easy');
   const [roomCode, setRoomCode] = useState('');
 
   // Access Firebase to update userList regularly
@@ -44,9 +46,25 @@ function App() {
       </header>
 
       <Route exact path="/" render={() => <Home setRoomCode={setRoomCode} />} />
-      <Route path="/lobby" render={() => <Lobby listOfUsers={listOfUsers} roomCode={roomCode} setQuestionsArray={setQuestionsArray} />} />
+      <Route
+        path="/lobby"
+        render={() => (
+          <Lobby
+            listOfUsers={listOfUsers}
+            roomCode={roomCode}
+            setQuestionsArray={setQuestionsArray}
+            triviaCategory={triviaCategory}
+            setTriviaCategory={setTriviaCategory}
+            triviaDifficulty={triviaDifficulty}
+            setTriviaDifficulty={setTriviaDifficulty}
+          />
+        )}
+      />
       <Route path="/game" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} questionsArray={questionsArray} />} />
-      <Route path="/gamesummary" render={() => <GameSummary listOfUsers={listOfUsers} roomCode={roomCode} />} />
+      <Route
+        path="/gamesummary"
+        render={() => <GameSummary listOfUsers={listOfUsers} roomCode={roomCode} triviaDifficulty={triviaDifficulty} triviaCategory={triviaCategory} />}
+      />
       <Route path="/leaderboard" render={() => <Leaderboard />} />
 
       <footer>

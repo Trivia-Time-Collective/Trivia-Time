@@ -6,10 +6,9 @@ import axios from 'axios';
 
 import User from './User.js';
 
-const Lobby = ({ listOfUsers, roomCode, setQuestionsArray }) => {
+const Lobby = ({ listOfUsers, roomCode, setQuestionsArray, triviaCategory, setTriviaCategory, triviaDifficulty, setTriviaDifficulty }) => {
   const [usernameInput, setUsernameInput] = useState('');
-  const [triviaCategory, setTriviaCategory] = useState('placeholder');
-  const [triviaDifficulty, setTriviaDifficulty] = useState('easy');
+
   const [triviaQuestionType, setTriviaQuestionType] = useState('multiple');
   const history = useHistory();
 
