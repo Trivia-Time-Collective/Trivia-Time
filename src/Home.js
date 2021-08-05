@@ -6,6 +6,8 @@ const Home = ({ setRoomCode }) => {
   const [joinRoomCode, setJoinRoomCode] = useState('');
   const history = useHistory();
 
+  const hexArray = '123456789ABCDEF'.split('');
+
   // Sweet Alert Modal to show game instructions
   const showInstructions = () => {
     swal({
@@ -24,7 +26,6 @@ const Home = ({ setRoomCode }) => {
   // Generates a new 4-digit room code for Host Game Option
   const generateRoomCode = () => {
     let randomRoomCode = '';
-    const hexArray = '123456789ABCDEF'.split('');
     for (let i = 0; i < 4; i++) {
       const randomIdx = Math.floor(Math.random() * hexArray.length);
       randomRoomCode += hexArray[randomIdx];
@@ -32,9 +33,25 @@ const Home = ({ setRoomCode }) => {
     setRoomCode(randomRoomCode);
   };
 
-  const joinRoom = () => {
-    setRoomCode(joinRoomCode);
-    history.push('/lobby');
+  // Remove any whitespace from roomcode, then check for invalid characters and ensure length is exactly 4
+  const joinRoom = (e) => {
+    e.preventDefault();
+    // trim whitespace
+    const processedRoomCode = joinRoomCode.trim();
+    let isValidRoomCode = true;
+    // check for invalid characters (not 1-9 or A-F)
+    for (const char of joinRoomCode) {
+      if (!hexArray.includes(char)) {
+        isValidRoomCode = false;
+        break;
+      }
+    }
+    if (processedRoomCode !== '' && isValidRoomCode && processedRoomCode.length === 4) {
+      setRoomCode(processedRoomCode);
+      history.push('/lobby');
+    } else {
+      swal('Error', 'Please enter a 4-digit room code with numbers 1-9, letters A-F only.', 'warning');
+    }
   };
 
   return (
@@ -43,12 +60,15 @@ const Home = ({ setRoomCode }) => {
         <Link className="button" to="/lobby" onClick={generateRoomCode}>
           Host Game
         </Link>
-        <form onSubmit={joinRoom}>
-          <label htmlFor="joinRoomInput"></label>
+        <form className="roomCodeForm" onSubmit={joinRoom}>
+          <label className="sr-only" htmlFor="joinRoomInput">
+            Enter 4-digit Room Code:
+          </label>
           <input
             type="text"
+            className="joinRoomInput"
             id="joinRoomInput"
-            placeholder="Enter Room Code"
+            placeholder='eg. "AB12"'
             value={joinRoomCode}
             onChange={(e) => setJoinRoomCode(e.target.value.toUpperCase())}
           />
