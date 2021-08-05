@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const TriviaQuestion = ({ currentQuestionObj, checkAnswer, setAnswer }) => {
+const TriviaQuestion = ({ currentQuestionObj, checkAnswer, setAnswer, showTimer }) => {
   const [question, setQuestion] = useState('');
   const [choices, setChoices] = useState([]);
   const [countdownTimer, setCountdownTimer] = useState(30);
@@ -9,15 +9,14 @@ const TriviaQuestion = ({ currentQuestionObj, checkAnswer, setAnswer }) => {
     let timer;
     if (countdownTimer > 0) {
       timer = setTimeout(() => setCountdownTimer(countdownTimer - 1), 1000);
-      console.log('Timer ID: ', timer);
-      console.log(countdownTimer);
     } else if (countdownTimer === 0) {
-      console.log('Timer cleared');
+      // blank string to force end of turn and give 0 points
+      checkAnswer('');
     }
     return () => {
       clearTimeout(timer);
     };
-  }, [countdownTimer]);
+  }, [checkAnswer, countdownTimer]);
 
   // loads new set of questions on new round, or when page loads
   useEffect(() => {
@@ -50,6 +49,7 @@ const TriviaQuestion = ({ currentQuestionObj, checkAnswer, setAnswer }) => {
           __html: question,
         }}
       ></h3>
+      {showTimer ? <p>Time left: {countdownTimer}</p> : null}
       <div className="triviaChoiceContainer">
         {choices.map((choice, index) => {
           return <button key={index} className="triviaChoice" onClick={() => checkAnswer(choice)} dangerouslySetInnerHTML={{ __html: choice }}></button>;
