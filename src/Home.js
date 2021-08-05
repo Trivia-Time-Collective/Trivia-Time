@@ -64,7 +64,7 @@ const Home = ({ setRoomCode }) => {
           <label className="sr-only" htmlFor="joinRoomInput">
             Enter 4-digit Room Code:
           </label>
-          <input
+          <input 
             type="text"
             className="joinRoomInput"
             id="joinRoomInput"

@@ -15,12 +15,15 @@ h1 {
   flex-direction: column;
 }
 
-.button {
+.button, .joinRoomInput{
   text-align: center;
   padding: 10px;
   margin: 30px;
   border: 2px solid $white;
-  box-shadow: 0 0 0.5rem $white, inset 0 0 0.5rem $white, 0 0 5rem $turquoise;
+  box-shadow: 
+  0 0 0.5rem $white, 
+  inset 0 0 0.5rem $white, 
+  0 0 5rem $turquoise;
 
   font-family: $body-font;
   font-size: 5rem;
@@ -29,7 +32,11 @@ h1 {
   color: $lime-green;
   background-color: transparent;
 
-  text-shadow: 0 0 5px $turquoise, 0 0 10px $turquoise, 0 0 20px $turquoise, 0 0 40px $turquoise;
+  text-shadow: 
+  0 0 5px $turquoise, 
+  0 0 10px $turquoise, 
+  0 0 20px $turquoise, 
+  0 0 40px $turquoise;
 }
 
 .button:hover {
@@ -40,15 +47,7 @@ h1 {
   display: flex;
   align-items: center;
   .joinRoomInput {
-    flex: 1 1 100px;
-    margin-left: 30px;
-    border: 2px solid $white;
-    font-family: $body-font;
-    letter-spacing: 3px;
-    font-weight: 700;
-    font-size: 5rem;
-    background-color: transparent;
-    color: $lime-green;
+    width: 50%;
   }
   .button {
     flex: 1 1 300px;
