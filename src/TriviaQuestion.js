@@ -5,6 +5,7 @@ const TriviaQuestion = ({ currentQuestionObj, checkAnswer, setAnswer, showTimer 
   const [choices, setChoices] = useState([]);
   const [countdownTimer, setCountdownTimer] = useState(30);
 
+  // Sets a 30 second countdown timer for each question
   useEffect(() => {
     let timer;
     if (countdownTimer > 0) {
@@ -44,7 +45,12 @@ const TriviaQuestion = ({ currentQuestionObj, checkAnswer, setAnswer, showTimer 
 
   return (
     <div className="triviaQuestion">
-      {showTimer ? <p className="clockTimer">00:{countdownTimer}</p> : null}
+      {showTimer ? (
+        <p className="clockTimer">
+          00:{countdownTimer < 10 ? '0' : ''}
+          {countdownTimer}
+        </p>
+      ) : null}
       <h3
         dangerouslySetInnerHTML={{
           __html: question,
