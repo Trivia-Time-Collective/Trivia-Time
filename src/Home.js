@@ -12,7 +12,7 @@ const Home = ({ setRoomCode }) => {
   const showInstructions = () => {
     swal({
       icon: 'info',
-      title: "How to play:",
+      title: 'How to play:',
       text: `
       • Host a game and invite your friends
       • Or enter a custom game code and join room
@@ -66,11 +66,12 @@ const Home = ({ setRoomCode }) => {
           <label className="sr-only" htmlFor="joinRoomInput">
             Enter 4-digit Room Code:
           </label>
-          <input 
+          <input
             type="text"
             className="joinRoomInput"
             id="joinRoomInput"
             placeholder='eg. "AB12"'
+            maxLength={4}
             value={joinRoomCode}
             onChange={(e) => setJoinRoomCode(e.target.value.toUpperCase())}
           />

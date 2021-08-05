@@ -2,8 +2,13 @@ import { Link } from 'react-router-dom';
 import firebase from './firebaseConfig.js';
 import { useEffect, useState } from 'react';
 
-const GameSummary = ({ listOfUsers }) => {
+const GameSummary = ({ listOfUsers, roomCode }) => {
   const [isAddedToFB, setIsAddedToFB] = useState(false);
+
+  const removeRoom = () => {
+    const roomRef = firebase.database().ref(`sessions/${roomCode}`);
+    roomRef.remove();
+  };
 
   useEffect(() => {
     if (!isAddedToFB) {
@@ -36,13 +41,13 @@ const GameSummary = ({ listOfUsers }) => {
         {/* // all scores 
             // announce the winner
             // button for play again? and another for main */}
-        <Link to="/" className="button">
+        <Link to="/" className="button" onClick={removeRoom}>
           Home
         </Link>
         <Link to="/lobby" className="button">
           Play Again
         </Link>
-        <Link to="/leaderboard" className="button">
+        <Link to="/leaderboard" className="button" onClick={removeRoom}>
           Leaderboard
         </Link>
       </div>

@@ -46,7 +46,7 @@ function App() {
       <Route exact path="/" render={() => <Home setRoomCode={setRoomCode} />} />
       <Route path="/lobby" render={() => <Lobby listOfUsers={listOfUsers} roomCode={roomCode} setQuestionsArray={setQuestionsArray} />} />
       <Route path="/game" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} questionsArray={questionsArray} />} />
-      <Route path="/gamesummary" render={() => <GameSummary listOfUsers={listOfUsers} />} />
+      <Route path="/gamesummary" render={() => <GameSummary listOfUsers={listOfUsers} roomCode={roomCode} />} />
       <Route path="/leaderboard" render={() => <Leaderboard />} />
 
       <footer>
