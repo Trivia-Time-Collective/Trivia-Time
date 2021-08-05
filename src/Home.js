@@ -1,7 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useState } from 'react';
 import swal from 'sweetalert';
 
 const Home = ({ setRoomCode }) => {
+  const [joinRoomCode, setJoinRoomCode] = useState('');
+  const history = useHistory();
+
+  // Sweet Alert Modal to show game instructions
   const showInstructions = () => {
     swal({
       icon: 'info',
@@ -16,23 +21,41 @@ const Home = ({ setRoomCode }) => {
     });
   };
 
-  // to later be implemented to allow for multiple game rooms
+  // Generates a new 4-digit room code for Host Game Option
   const generateRoomCode = () => {
     let randomRoomCode = '';
     const hexArray = '123456789ABCDEF'.split('');
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 4; i++) {
       const randomIdx = Math.floor(Math.random() * hexArray.length);
       randomRoomCode += hexArray[randomIdx];
     }
     setRoomCode(randomRoomCode);
   };
 
+  const joinRoom = () => {
+    setRoomCode(joinRoomCode);
+    history.push('/lobby');
+  };
+
   return (
     <main className="wrapper">
       <div className="btnContainer">
         <Link className="button" to="/lobby" onClick={generateRoomCode}>
-          Play Now
+          Host Game
         </Link>
+        <form onSubmit={joinRoom}>
+          <label htmlFor="joinRoomInput"></label>
+          <input
+            type="text"
+            id="joinRoomInput"
+            placeholder="Enter Room Code"
+            value={joinRoomCode}
+            onChange={(e) => setJoinRoomCode(e.target.value.toUpperCase())}
+          />
+          <button className="button" type="submit">
+            Join Room
+          </button>
+        </form>
         <button className="button" onClick={showInstructions}>
           Instructions
         </button>
