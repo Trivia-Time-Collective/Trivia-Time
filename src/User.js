@@ -11,16 +11,20 @@ const User = ({ userObj, index, removeUser }) => {
   return (
     <li className="userProfile">
       <div>
-        <p className="userProfileName">{userObj.username}</p>
+        <div className="closeBtnContainer">
         <FontAwesomeIcon
-          tabIndex="0"
           className="removeUser"
+          tabIndex="0"
           icon={faWindowClose}
           onKeyDown={handleKeyDown}
           onClick={() => removeUser(userObj.key)}
           aria-label={`Remove User: ${userObj.username}`}
-        />
+          />
+          </div>
+          <p className="userProfileName">{userObj.username}</p>
+
       </div>
+
       <div className="imageContainer">
         <img src={userObj.avatarImg} alt={`Avatar for ${userObj.username}`} />
       </div>

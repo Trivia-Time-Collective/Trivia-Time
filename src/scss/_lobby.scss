@@ -121,6 +121,7 @@ select:focus {
   inset 0 0 0.5rem $white;
   margin: 10px;
   position: relative;
+
   .userProfileName {
     font-size: 3rem;
     margin: 0;
@@ -128,7 +129,6 @@ select:focus {
   }
   
   .removeUser {
-    display: inline-block;
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
