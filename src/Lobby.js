@@ -111,7 +111,15 @@ const Lobby = ({ listOfUsers, roomCode, setQuestionsArray }) => {
           <label className="sr-only" htmlFor="username">
             Enter a username:
           </label>
-          <input type="text" id="username" placeholder="Enter username" required value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} />
+          <input
+            type="text"
+            id="username"
+            placeholder="Enter username"
+            maxLength={12}
+            required
+            value={usernameInput}
+            onChange={(e) => setUsernameInput(e.target.value)}
+          />
         </div>
         <button type="submit" className="turqoiseButton">
           Add User

@@ -18,8 +18,10 @@ const Leaderboard = () => {
         };
         newArray.push(userObj);
       }
+      newArray.sort((a, b) => a.points < b.points);
       setLeaderboardList(newArray);
       console.log(leaderboardList);
+
     });
   }, []);
 

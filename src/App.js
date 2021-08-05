@@ -13,30 +13,32 @@ import { useState, useEffect } from 'react';
 function App() {
   const [listOfUsers, setListOfUsers] = useState([]);
   const [questionsArray, setQuestionsArray] = useState([]);
-  const [roomCode, setRoomCode] = useState('ABC123');
+  const [roomCode, setRoomCode] = useState('');
 
   // Access Firebase to update userList regularly
   useEffect(() => {
-    const dbRef = firebase.database().ref(`sessions/${roomCode}`);
+    if (roomCode !== '') {
+      const dbRef = firebase.database().ref(`sessions/${roomCode}`);
 
-    dbRef.on('value', (snapshot) => {
-      const myData = snapshot.val();
-      const newArray = [];
-      for (let objKey in myData) {
-        const userObj = {
-          key: objKey,
-          username: myData[objKey].username,
-          points: myData[objKey].points,
-          avatarImg: myData[objKey].avatarImg,
-        };
-        newArray.push(userObj);
-      }
-      setListOfUsers(newArray);
-    });
+      dbRef.on('value', (snapshot) => {
+        const myData = snapshot.val();
+        const newArray = [];
+        for (let objKey in myData) {
+          const userObj = {
+            key: objKey,
+            username: myData[objKey].username,
+            points: myData[objKey].points,
+            avatarImg: myData[objKey].avatarImg,
+          };
+          newArray.push(userObj);
+        }
+        setListOfUsers(newArray);
+      });
+    }
   }, [roomCode]);
 
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <header className="wrapper">
         <h1>Trivia Time</h1>
       </header>
