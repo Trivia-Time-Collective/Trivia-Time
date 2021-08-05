@@ -1,0 +1,40 @@
+.leaderboardUl {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  list-style-type: none;
+}
+
+.leaderboardLi {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 2px $lime-green solid;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.leaderboardName {
+  color: $white;
+  font-family: $body-font;
+  margin: 0;
+  font-size: 3rem;
+}
+
+.leaderboardPoints {
+  margin: 0;
+  font-size: 3rem;
+  font-family: $body-font;
+}
+
+.leaderboardh2 {
+  font-family: $header-font;
+  color: $lime-green;
+  font-size: 7rem;
+  text-transform: uppercase;
+  text-align: center;
+}

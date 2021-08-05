@@ -20,18 +20,20 @@ const Leaderboard = () => {
       }
       newArray.sort((a, b) => a.points < b.points);
       setLeaderboardList(newArray);
+      console.log(leaderboardList);
+
     });
   }, []);
 
   return (
-    <main>
-      <h2>leaderboard!</h2>
-      <ul>
+    <main className="leaderboardMain">
+      <h2 className="leaderboardh2">leaderboard!</h2>
+      <ul className="leaderboardUl">
         {leaderboardList.map((leaderboardObj) => {
           return (
-            <li key={leaderboardObj.key}>
-              <p>Name: {leaderboardObj.username}</p>
-              <p>Points: {leaderboardObj.points}</p>
+            <li className="leaderboardLi" key={leaderboardObj.key}>
+              <p className="leaderboardName">Name: {leaderboardObj.username}</p>
+              <p className="leaderboardPoints">Points: {leaderboardObj.points}</p>
             </li>
           );
         })}
