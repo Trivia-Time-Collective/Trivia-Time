@@ -94,6 +94,7 @@ const Lobby = ({ listOfUsers, roomCode, setQuestionsArray, triviaCategory, setTr
             title: 'Error',
             text: error.message,
             icon: 'error',
+            className: 'swal-centered',
           });
         });
     }

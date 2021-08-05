@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 import firebase from './firebaseConfig.js';
 import TriviaQuestion from './TriviaQuestion.js';
@@ -47,7 +47,7 @@ const Game = ({ listOfUsers, roomCode, questionsArray }) => {
       }
     }
   };
-  
+
   // On page load, loops through all users to ensure that points are at 0 (since users now persist on Firebase)
   useEffect(() => {
     for (const { key } of listOfUsers) {
@@ -60,6 +60,7 @@ const Game = ({ listOfUsers, roomCode, questionsArray }) => {
 
   return (
     <main className="wrapper gamePage">
+      <Link to="/lobby" className="quit button">Quit</Link>
       <div className="currentUser">
         <p>{`${listOfUsers[turnCounter].username}'s turn`}</p>
         <p>Score: {score}</p>
