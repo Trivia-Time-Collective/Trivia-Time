@@ -25,9 +25,7 @@ const Leaderboard = () => {
 
   return (
     <main className="leaderboardMain">
-      <i class="fas fa-award"></i>
       <h2 className="leaderboardh2">leaderboard!</h2>
-      <i class="fas fa-award"></i>
       <ul className="leaderboardUl">
         {leaderboardList.map((leaderboardObj) => {
           return (

@@ -13,49 +13,28 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 2px #affc41 solid;
+  border: 2px $lime-green solid;
   margin-bottom: 20px;
   padding: 20px;
 }
 
 .leaderboardName {
-  color: white;
+  color: $white;
   font-family: $body-font;
-  margin: 0px;
-  font-size: 30px;
+  margin: 0;
+  font-size: 3rem;
 }
 
 .leaderboardPoints {
-  margin: 0px;
-  font-size: 30px;
+  margin: 0;
+  font-size: 3rem;
   font-family: $body-font;
 }
 
 .leaderboardh2 {
-  font-family: 'Roboto', sans-serif;
-  color: #affc41;
+  font-family: $header-font;
+  color: $lime-green;
   font-size: 5rem;
   text-transform: uppercase;
   text-align: center;
-}
-
-.leaderboardMain {
-  .fas.fa-award {
-    color: white;
-    font-size: 25px;
-
-    color: red;
-    font-size: 25px;
-    width: 20px;
-    height: 20px;
-  }
-
-  i {
-    color: white;
-    font-size: 25px;
-    color: red;
-    font-size: 25px;
-    width: 20px;
-    height: 20px;
-  }
 }
