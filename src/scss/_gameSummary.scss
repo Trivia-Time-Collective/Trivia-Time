@@ -1,0 +1,43 @@
+.summaryWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+}
+
+.playerContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.userProfileName,
+.userPoints {
+  font-family: $body-font;
+}
+
+.userPoints {
+  font-size: 2rem;
+  text-align: center;
+  margin: 0.5rem 0;
+  color: $white;
+  font-family: $body-font;
+}
+
+.summaryPageLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 900px;
+  .button {
+    cursor: pointer;
+    flex: 0 1 240px;
+    margin: 30px;
+    white-space: nowrap;
+  }
+}

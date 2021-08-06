@@ -1,32 +1,56 @@
 import { Link } from 'react-router-dom';
+import firebase from './firebaseConfig.js';
+import { useEffect, useState } from 'react';
 
+const GameSummary = ({ listOfUsers, roomCode, triviaCategory, triviaDifficulty }) => {
+  const [isAddedToFB, setIsAddedToFB] = useState(false);
 
+  const removeRoom = () => {
+    const roomRef = firebase.database().ref(`sessions/${roomCode}`);
+    roomRef.remove();
+  };
 
-const GameSummary = ({ listOfUsers }) => {
-    return (
-        <div>
-            <h2>Game Summary!</h2>
-            <div className="playerContainer">
-                {listOfUsers.map((userObj) => {
-                    return (
-                        <div className="summaryProfile">
-                            <img src={userObj.avatarImg} alt={userObj.username}/>
-                            <p>{userObj.username}</p>
-                            <p>{userObj.points}</p>
-                        </div>
-                    )
-                })} 
+  useEffect(() => {
+    if (!isAddedToFB) {
+      const leaderboardRef = firebase.database().ref('leaderboard');
+      for (const userObj of listOfUsers) {
+        leaderboardRef.push({
+          username: userObj.username,
+          points: userObj.points,
+          difficulty: triviaDifficulty,
+          category: triviaCategory,
+        });
+      }
+      setIsAddedToFB(true);
+    }
+  }, [isAddedToFB, listOfUsers, triviaCategory, triviaDifficulty]);
 
-                
-            {/* // all scores 
-        // announce the winner
-        // button for play again? and another for main */}
-        <Link to='/'>Home</Link>
-        <Link to='/lobby'>Play Again</Link>
-        <Link to='/leaderboard'>Leaderboard</Link>
+  return (
+    <main className="wrapper summaryWrapper">
+      <h2>Game Summary:</h2>
+      <div className="playerContainer">
+        {listOfUsers.map((userObj) => {
+          return (
+            <div className="userProfile" key={userObj.key}>
+              <p className="userProfileName">{userObj.username}</p>
+              <img className="userProfileAvatar" src={userObj.avatarImg} alt={userObj.username} />
+              <p className="userPoints">Points: {userObj.points}</p>
             </div>
-        </div>
-    )
-}
-
-export default GameSummary
+          );
+        })}
+      </div>
+      <div className="summaryPageLinks">
+        <Link to="/" className="button" onClick={removeRoom}>
+          Home
+        </Link>
+        <Link to="/lobby" className="button">
+          Play Again
+        </Link>
+        <Link to="/leaderboard" className="button" onClick={removeRoom}>
+          Leaderboard
+        </Link>
+      </div>
+    </main>
+  );
+};
+export default GameSummary;
