@@ -47,7 +47,7 @@ const Leaderboard = () => {
         };
         newArray.push(userObj);
       }
-      newArray.sort((a, b) => a.points < b.points);
+      newArray.sort((a, b) => b.points - a.points);
       setLeaderboardList(newArray);
     });
   }, []);
