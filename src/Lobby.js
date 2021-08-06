@@ -1,21 +1,24 @@
+import { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import swal from 'sweetalert';
+import firebase from './firebaseConfig.js';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
-const Lobby = ({ listOfUsers, setListOfUsers }) => {
-  const [avatar, setAvatar] = useState('');
+import User from './User.js';
+
+const Lobby = ({ listOfUsers, roomCode, setQuestionsArray, triviaCategory, setTriviaCategory, triviaDifficulty, setTriviaDifficulty }) => {
   const [usernameInput, setUsernameInput] = useState('');
-  const [triviaCategory, setTriviaCategory] = useState('placeholder');
-  const [triviaDifficulty, setTriviaDifficulty] = useState('placeholder');
-  const [triviaQuestionType, setTriviaQuestionType] = useState('placeholder');
 
-  const removeUser = (userToDelete) => {
-    const newUserList = listOfUsers.filter((userObj) => {
-      return userObj.username !== userToDelete;
-    });
-    setListOfUsers(newUserList);
+  const [triviaQuestionType, setTriviaQuestionType] = useState('multiple');
+  const history = useHistory();
+
+  const userRef = firebase.database().ref(`sessions/${roomCode}`);
+
+  const removeUser = (userKeyToDelete) => {
+    userRef.child(userKeyToDelete).remove();
   };
 
+  // Check if usename is already taken and input is not empty, then push user to Firebase
   const addUser = (e) => {
     e.preventDefault();
     const userToAdd = usernameInput.trim();
@@ -31,134 +34,211 @@ const Lobby = ({ listOfUsers, setListOfUsers }) => {
       newUser.username = userToAdd;
       newUser.points = 0;
       newUser.avatarImg = `https://robohash.org/${newUser.username}`;
-
-      setListOfUsers([...listOfUsers, newUser]);
+      userRef.push(newUser);
     } else if (usernameTaken) {
-      alert('Whoops! That username is taken!');
-      //use sweetalert
+      swal('Whoops!', 'That username is taken.', 'warning');
     }
     setUsernameInput('');
   };
 
+  // Before making axios call, check if all form categories have been completed or selected
+  // if any fields in form are empty, return false, if forms are completed return true
   const checkGameSettings = (e) => {
     let errorMessage = [];
     if (triviaCategory === 'placeholder') {
-      errorMessage.push('trivia category missing');
-    }
-    if (triviaDifficulty === 'placeholder') {
-      errorMessage.push('trivia difficult missing');
-    }
-
-    if (triviaQuestionType === 'placeholder') {
-      errorMessage.push('trivia question type missing');
+      errorMessage.push('trivia category');
     }
     if (listOfUsers.length <= 0) {
       errorMessage.push('must have at least one user');
     }
-
     if (errorMessage.length > 0) {
-      e.preventDefault();
-      alert('The following fields are missing: \n - ' + errorMessage.join('\n - '));
+      swal({
+        title: 'The following fields are missing:',
+        text: '- ' + errorMessage.join('\n - '),
+        icon: 'warning',
+      });
+      return false;
+    } else {
+      return true;
     }
   };
 
-  useEffect(() => {
-    axios({
-      url: 'https://avatars.dicebear.com/api/bottts/test.svg',
-      method: 'GET',
-      dataResponse: 'json',
-    }).then((res) => {
-      setAvatar(res.data);
-    });
-  }, []);
+  // Make an axios call to Open Trivia API. If not enough results are found, catch error and allow user to select a new category
+  const loadTriviaQuestions = (e) => {
+    e.preventDefault();
+    const formsFilled = checkGameSettings(e);
+    if (formsFilled) {
+      axios({
+        url: `https://opentdb.com/api.php`,
+        method: 'GET',
+        dataResponse: 'json',
+        params: {
+          amount: 10,
+          category: triviaCategory,
+          difficulty: triviaDifficulty,
+          type: triviaQuestionType,
+        },
+      })
+        .then((res) => {
+          // error code 1 from API means: Could not return results. The API doesn't have enough questions for your query. (Ex. Asking for 50 Questions in a Category that only has 20.)
+          if (res.data.response_code === 1) {
+            throw new Error('Not enough results for this Trivia Category. Please select something else.');
+          } else {
+            setQuestionsArray(res.data.results);
+            // since e.preventDefault has been executed, use useHistory to forward to next page
+            history.push('/game');
+          }
+        })
+        .catch((error) => {
+          swal({
+            title: 'Error',
+            text: error.message,
+            icon: 'error',
+            className: 'swal-centered',
+          });
+        });
+    }
+  };
 
   return (
-    <div>
-      <h2>Lobby</h2>
-      <form className='addUserForm' onSubmit={addUser}>
-        <label htmlFor='username'>Enter a username:</label>
-        <input type='text' id='username' placeholder='Enter username' required value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} />
-        <label htmlFor='avatarSelect'>Select an Avatar:</label>
-        <select id='avatarSelect'>
-          <option value='1'>Robot 1</option>
-        </select>
-        <button type='submit'>Add User</button>
+    <main className="wrapper lobbyContainer">
+      <Link to="/" className="quit button">
+        Home
+      </Link>
+      <h2>Room #{roomCode}</h2>
+      <form className="addUserForm" onSubmit={addUser}>
+        <div className="formBox">
+          <label className="sr-only" htmlFor="username">
+            Enter a username:
+          </label>
+          <input
+            type="text"
+            id="username"
+            placeholder="Enter username"
+            maxLength={12}
+            required
+            value={usernameInput}
+            onChange={(e) => setUsernameInput(e.target.value)}
+          />
+        </div>
+        <button type="submit" className="turqoiseButton">
+          Add User
+        </button>
       </form>
-      <div className='avatar' dangerouslySetInnerHTML={{ __html: avatar }} />
-
-      <div className='contestantsContainer'>
-        <ul className='contestantsList'>
+      <div className="contestantsContainer">
+        <ul className="userProfileList">
           {listOfUsers.map((userObj, index) => {
-            return (
-              <li key={index}>
-                <p>{userObj.username}</p>
-                <img src={userObj.avatarImg} alt={`avatarFor ${userObj.username}`} />
-                <div className='removeUser' onClick={() => removeUser(userObj.username)}>
-                  X
-                </div>
-              </li>
-            );
+            return <User userObj={userObj} index={index} removeUser={removeUser} key={index} />;
           })}
         </ul>
       </div>
+      <div className="optionsTitleContainer">
+        <div className="optionsTitleBorder"></div>
+        <h3>Select your Trivia Options</h3>
+        <div className="optionsTitleBorder"></div>
+      </div>
+      <form className="triviaOptionsForm">
+        <div className="formBox">
+          <label className="triviaLabel" htmlFor="triviaCategory">
+            Category:
+          </label>
+          <select id="triviaCategory" onChange={(e) => setTriviaCategory(e.target.value)} value={triviaCategory}>
+            <option value="placeholder" disabled>
+              Select Category:
+            </option>
+            <option value="9">General Knowledge</option>
+            <option value="10">Entertainment: Books</option>
+            <option value="11">Entertainment: Film</option>
+            <option value="12">Entertainment: Music</option>
+            <option value="13">Entertainment: Musicals &amp; Theatres</option>
+            <option value="14">Entertainment: Television</option>
+            <option value="15">Entertainment: Video Games</option>
+            <option value="16">Entertainment: Board Games</option>
+            <option value="17">Science &amp; Nature</option>
+            <option value="18">Science: Computers</option>
+            <option value="19">Science: Mathematics</option>
+            <option value="20">Mythology</option>
+            <option value="21">Sports</option>
+            <option value="22">Geography</option>
+            <option value="23">History</option>
+            <option value="24">Politics</option>
+            <option value="25">Art</option>
+            <option value="26">Celebrities</option>
+            <option value="27">Animals</option>
+            <option value="28">Vehicles</option>
+            <option value="29">Entertainment: Comics</option>
+            <option value="30">Science: Gadgets</option>
+            <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+            <option value="32">Entertainment: Cartoon &amp; Animations</option>
+          </select>
+        </div>
 
-      <form className='triviaOptionsForm'>
-        <label htmlFor='triviaCategory'>Select Category:</label>
-        <select id='triviaCategory' onChange={(e) => setTriviaCategory(e.target.value)} value={triviaCategory}>
-          <option value='placeholder' disabled>
-            Select Category:
-          </option>
-          <option value='9'>General Knowledge</option>
-          <option value='10'>Entertainment: Books</option>
-          <option value='11'>Entertainment: Film</option>
-          <option value='12'>Entertainment: Music</option>
-          <option value='13'>Entertainment: Musicals &amp; Theatres</option>
-          <option value='14'>Entertainment: Television</option>
-          <option value='15'>Entertainment: Video Games</option>
-          <option value='16'>Entertainment: Board Games</option>
-          <option value='17'>Science &amp; Nature</option>
-          <option value='18'>Science: Computers</option>
-          <option value='19'>Science: Mathematics</option>
-          <option value='20'>Mythology</option>
-          <option value='21'>Sports</option>
-          <option value='22'>Geography</option>
-          <option value='23'>History</option>
-          <option value='24'>Politics</option>
-          <option value='25'>Art</option>
-          <option value='26'>Celebrities</option>
-          <option value='27'>Animals</option>
-          <option value='28'>Vehicles</option>
-          <option value='29'>Entertainment: Comics</option>
-          <option value='30'>Science: Gadgets</option>
-          <option value='31'>Entertainment: Japanese Anime &amp; Manga</option>
-          <option value='32'>Entertainment: Cartoon &amp; Animations</option>
-          {/* Try to access API to get category list */}
-        </select>
-        <label htmlFor='triviaDifficulty'>Select Difficulty</label>
+        <div className="formRow">
+          <fieldset className="formBox">
+            <legend className="triviaLabel">Difficulty:</legend>
+            <input
+              type="radio"
+              name="triviaDifficulty"
+              id="easy"
+              value="easy"
+              checked={triviaDifficulty === 'easy'}
+              onChange={(e) => setTriviaDifficulty(e.target.value)}
+            />
+            <label htmlFor="easy">Easy</label>
 
-        <select id='triviaDifficulty' onChange={(e) => setTriviaDifficulty(e.target.value)} value={triviaDifficulty}>
-          <option value='placeholder' disabled>
-            Select Difficulty:
-          </option>
-          <option value='easy'>Easy</option>
-          <option value='medium'>Medium</option>
-          <option value='hard'>Hard</option>
-        </select>
-        <label htmlFor='triviaQuestionType'>Select Question Type:</label>
-        <select id='triviaQuestionType' onChange={(e) => setTriviaQuestionType(e.target.value)} value={triviaQuestionType}>
-          <option value='placeholder' disabled>
-            Select Q Type:
-          </option>
-          <option value='boolean'>True or False</option>
-          <option value='multiple'>Multiple Choice</option>
-        </select>
-        {/* On button press, take user choices and go to next page. */}
+            <input
+              type="radio"
+              name="triviaDifficulty"
+              id="medium"
+              value="medium"
+              checked={triviaDifficulty === 'medium'}
+              onChange={(e) => setTriviaDifficulty(e.target.value)}
+            />
+            <label htmlFor="medium">Medium</label>
+
+            <input
+              type="radio"
+              name="triviaDifficulty"
+              id="hard"
+              value="hard"
+              checked={triviaDifficulty === 'hard'}
+              onChange={(e) => setTriviaDifficulty(e.target.value)}
+            />
+            <label htmlFor="hard">Hard</label>
+          </fieldset>
+          <fieldset className="radioQuestionType">
+            <legend className="triviaLabel">Question Type:</legend>
+            <div className="formBox">
+              <input
+                type="radio"
+                id="boolean"
+                name="triviaQuestionType"
+                value="boolean"
+                checked={triviaQuestionType === 'boolean'}
+                onChange={(e) => setTriviaQuestionType(e.target.value)}
+              />
+              <label htmlFor="boolean">True or False</label>
+            </div>
+            <div className="formBox">
+              <input
+                type="radio"
+                id="multiple"
+                name="triviaQuestionType"
+                value="multiple"
+                checked={triviaQuestionType === 'multiple'}
+                onChange={(e) => setTriviaQuestionType(e.target.value)}
+              />
+              <label htmlFor="multiple">Multiple Choice</label>
+            </div>
+          </fieldset>
+        </div>
       </form>
-      <Link to={`/game/${triviaCategory}/${triviaDifficulty}/${triviaQuestionType}`} onClick={checkGameSettings}>
-        Game Page
-      </Link>
-      <Link to='/gamesummary'>Game Summary</Link>
-    </div>
+      <div className="linkContainer">
+        <Link to={`/game`} onClick={loadTriviaQuestions} className="formButton">
+          Start Game
+        </Link>
+      </div>
+    </main>
   );
 };
 

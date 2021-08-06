@@ -1,0 +1,42 @@
+.leaderboardMain {
+  h3 {
+    font-size: 3rem;
+    margin: 1rem 0;
+    text-transform: uppercase;
+  }
+  h4 {
+    margin: 0.5rem 0;
+  }
+  p {
+    margin: 0.5rem 0;
+    text-transform: capitalize;
+  }
+  ul {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    list-style-type: none;
+  }
+  li {
+    flex: 0 1 200px;
+    border: 2px $lime-green solid;
+    margin: 20px;
+    padding: 5px 10px;
+  }
+}
+
+.leaderboardPoints {
+  margin: 0;
+  font-size: 3rem;
+  font-family: $body-font;
+}
+
+@media (max-width: 480px) {
+  .leaderboardMain {
+    h2 {
+      font-size: calc(1.16rem + 8vw);
+    }
+  }
+}
