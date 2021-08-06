@@ -102,10 +102,10 @@ const Lobby = ({ listOfUsers, roomCode, setQuestionsArray, triviaCategory, setTr
 
   return (
     <main className="wrapper lobbyContainer">
-      <h2>Room #{roomCode}</h2>
-      <Link to="/" className="formButton">
+      <Link to="/" className="quit button">
         Home
       </Link>
+      <h2>Room #{roomCode}</h2>
       <form className="addUserForm" onSubmit={addUser}>
         <div className="formBox">
           <label className="sr-only" htmlFor="username">

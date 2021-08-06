@@ -31,7 +31,7 @@ const GameSummary = ({ listOfUsers, roomCode, triviaCategory, triviaDifficulty }
       <div className="playerContainer">
         {listOfUsers.map((userObj) => {
           return (
-            <div className="userProfile">
+            <div className="userProfile" key={userObj.key}>
               <p className="userProfileName">{userObj.username}</p>
               <img className="userProfileAvatar" src={userObj.avatarImg} alt={userObj.username} />
               <p className="userPoints">Points: {userObj.points}</p>

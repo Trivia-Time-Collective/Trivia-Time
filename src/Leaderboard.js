@@ -1,5 +1,6 @@
 import firebase from './firebaseConfig.js';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const categoryLookupObject = {
   9: 'General Knowledge',
@@ -35,7 +36,6 @@ const Leaderboard = () => {
     const leaderboardRef = firebase.database().ref('leaderboard');
     leaderboardRef.on('value', (snapshot) => {
       const leaderboardData = snapshot.val();
-      console.log(leaderboardData);
       const newArray = [];
       for (const key in leaderboardData) {
         const userObj = {
@@ -55,6 +55,9 @@ const Leaderboard = () => {
   return (
     <main className="wrapper leaderboardMain">
       <h2>leaderboard</h2>
+      <Link to="/" className="quit button">
+        Home
+      </Link>
       <ul>
         {leaderboardList.map((leaderboardObj) => {
           return (

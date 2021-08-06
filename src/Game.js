@@ -54,13 +54,14 @@ const Game = ({ listOfUsers, roomCode, questionsArray }) => {
       const userRef = firebase.database().ref(`sessions/${roomCode}/${key}`);
       userRef.update({ points: 0 });
     }
-    console.log('user scores reset');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <main className="wrapper gamePage">
-      <Link to="/lobby" className="quit button">Quit</Link>
+      <Link to="/lobby" className="quit button">
+        Quit
+      </Link>
       <div className="currentUser">
         <p>{`${listOfUsers[turnCounter].username}'s turn`}</p>
         <p>Score: {score}</p>

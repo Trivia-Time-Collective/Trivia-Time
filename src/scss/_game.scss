@@ -10,14 +10,16 @@
 
 .quit {
   height: 4rem;
-  width: 8rem;
+  min-width: 8rem;
   padding: 3px 12px;
   font-size: 2rem;
+  margin: 0;
+  text-align: center;
   line-height: normal;
   cursor: pointer;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 10px;
+  right: 10px;
 }
 
 .swal-centered .swal-text {
@@ -29,11 +31,7 @@
   justify-content: space-between;
   font-family: $body-font;
   color: $lime-green;
-  text-shadow: 
-  0 0 5px $turquoise, 
-  0 0 10px $turquoise, 
-  0 0 20px $turquoise, 
-  0 0 40px $turquoise;
+  text-shadow: 0 0 5px $turquoise, 0 0 10px $turquoise, 0 0 20px $turquoise, 0 0 40px $turquoise;
   font-size: 3rem;
 }
 
@@ -63,10 +61,12 @@
   justify-content: center;
   font-family: $body-font;
   color: $lime-green;
-  text-shadow: 
-  0 0 5px $turquoise, 
-  0 0 10px $turquoise, 
-  0 0 20px $turquoise, 
-  0 0 40px $turquoise;
+  text-shadow: 0 0 5px $turquoise, 0 0 10px $turquoise, 0 0 20px $turquoise, 0 0 40px $turquoise;
   font-size: 3rem;
+}
+
+@media (max-width: 480px) {
+  .triviaChoice {
+    padding: 1rem;
+  }
 }

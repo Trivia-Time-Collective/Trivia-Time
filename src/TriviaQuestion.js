@@ -37,10 +37,6 @@ const TriviaQuestion = ({ currentQuestionObj, checkAnswer, setAnswer, showTimer 
     setChoices(RandomizedArray);
     setAnswer(currentQuestionObj.correct_answer);
     setCountdownTimer(30);
-
-    return () => {
-      console.log('trivia question unmounted');
-    };
   }, [currentQuestionObj.correct_answer, currentQuestionObj.incorrect_answers, currentQuestionObj.question, setAnswer]);
 
   return (
