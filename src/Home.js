@@ -1,6 +1,7 @@
 import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import swal from 'sweetalert';
+import firebase from './firebaseConfig.js';
 
 const Home = ({ setRoomCode, setIsOnlineMultiplayer }) => {
   const [joinRoomCode, setJoinRoomCode] = useState('');
@@ -38,7 +39,7 @@ const Home = ({ setRoomCode, setIsOnlineMultiplayer }) => {
     generateRoomCode();
   };
 
-  // Generates a new 4-digit room code for Host Game Option
+  // Generates a new 4-digit room code
   const generateRoomCode = () => {
     let randomRoomCode = '';
     for (let i = 0; i < 4; i++) {
@@ -62,10 +63,24 @@ const Home = ({ setRoomCode, setIsOnlineMultiplayer }) => {
       }
     }
     if (processedRoomCode !== '' && isValidRoomCode && processedRoomCode.length === 4) {
-      setRoomCode(processedRoomCode);
-      history.push('/lobby');
+      const roomCodeRef = firebase.database().ref(`sessions/${processedRoomCode}`);
+      roomCodeRef
+        .get()
+        .then((snapshot) => {
+          if (snapshot.val() === null) {
+            throw new Error('This room does not exist');
+          }
+          setRoomCode(processedRoomCode);
+          setIsOnlineMultiplayer(true);
+          history.push('/lobby');
+        })
+        .catch((error) => {
+          swal('Room not found', error.message, 'warning');
+          setJoinRoomCode('');
+        });
     } else {
       swal('Error', 'Please enter a 4-digit room code with numbers 1-9, letters A-F only.', 'warning');
+      setJoinRoomCode('');
     }
   };
 
