@@ -10,7 +10,7 @@
   justify-content: center;
   align-items: center;
   margin: 20px 0;
-  max-width: 300px;
+  max-width: 500px;
   input {
     background-color: transparent;
     color: $white;
@@ -28,6 +28,9 @@
     padding: 8px 12px;
     border-radius: 10px;
     background-color: $turquoise;
+  }
+  h3 {
+    margin: 0 10px;
   }
 }
 
