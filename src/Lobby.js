@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import User from './User.js';
 
-const Lobby = ({ listOfUsers, roomCode, setQuestionsArray, triviaCategory, setTriviaCategory, triviaDifficulty, setTriviaDifficulty }) => {
+const Lobby = ({ listOfUsers, roomCode, setQuestionsArray, triviaCategory, setTriviaCategory, triviaDifficulty, setTriviaDifficulty, isOnlineMultiplayer }) => {
   const [usernameInput, setUsernameInput] = useState('');
 
   const [triviaQuestionType, setTriviaQuestionType] = useState('multiple');
@@ -18,7 +18,7 @@ const Lobby = ({ listOfUsers, roomCode, setQuestionsArray, triviaCategory, setTr
     userRef.child(userKeyToDelete).remove();
   };
 
-  // Check if usename is already taken and input is not empty, then push user to Firebase
+  // Check if username is already taken and input is not empty, then push user to Firebase
   const addUser = (e) => {
     e.preventDefault();
     const userToAdd = usernameInput.trim();
@@ -105,7 +105,7 @@ const Lobby = ({ listOfUsers, roomCode, setQuestionsArray, triviaCategory, setTr
       <Link to="/" className="quit button">
         Home
       </Link>
-      <h2>Room #{roomCode}</h2>
+      {isOnlineMultiplayer ? <h2>Room #{roomCode}</h2> : <h2>Local Hot Seat</h2>}
       <form className="addUserForm" onSubmit={addUser}>
         <div className="formBox">
           <label className="sr-only" htmlFor="username">

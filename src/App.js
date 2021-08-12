@@ -16,6 +16,7 @@ function App() {
   const [triviaCategory, setTriviaCategory] = useState('placeholder');
   const [triviaDifficulty, setTriviaDifficulty] = useState('easy');
   const [roomCode, setRoomCode] = useState('');
+  const [isOnlineMultiplayer, setIsOnlineMultiplayer] = useState(false);
 
   // Access Firebase to update userList regularly
   useEffect(() => {
@@ -45,7 +46,7 @@ function App() {
         <h1>Trivia Time</h1>
       </header>
 
-      <Route exact path="/" render={() => <Home setRoomCode={setRoomCode} />} />
+      <Route exact path="/" render={() => <Home setRoomCode={setRoomCode} setIsOnlineMultiplayer={setIsOnlineMultiplayer} />} />
       <Route
         path="/lobby"
         render={() => (
@@ -57,6 +58,7 @@ function App() {
             setTriviaCategory={setTriviaCategory}
             triviaDifficulty={triviaDifficulty}
             setTriviaDifficulty={setTriviaDifficulty}
+            isOnlineMultiplayer={isOnlineMultiplayer}
           />
         )}
       />

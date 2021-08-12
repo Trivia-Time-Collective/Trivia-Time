@@ -2,8 +2,9 @@ import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import swal from 'sweetalert';
 
-const Home = ({ setRoomCode }) => {
+const Home = ({ setRoomCode, setIsOnlineMultiplayer }) => {
   const [joinRoomCode, setJoinRoomCode] = useState('');
+  const [showPlayNowMenu, setShowPlayNowMenu] = useState(false);
   const history = useHistory();
 
   const hexArray = '123456789ABCDEF'.split('');
@@ -25,6 +26,18 @@ const Home = ({ setRoomCode }) => {
     });
   };
 
+  // Function to start a local hot seat game
+  const startHotSeatGame = () => {
+    setIsOnlineMultiplayer(false);
+    generateRoomCode();
+  };
+
+  // Function to start hosting an online session
+  const startOnlineGame = () => {
+    setIsOnlineMultiplayer(true);
+    generateRoomCode();
+  };
+
   // Generates a new 4-digit room code for Host Game Option
   const generateRoomCode = () => {
     let randomRoomCode = '';
@@ -35,7 +48,7 @@ const Home = ({ setRoomCode }) => {
     setRoomCode(randomRoomCode);
   };
 
-  // Remove any whitespace from roomcode, then check for invalid characters and ensure length is exactly 4
+  // Remove any whitespace from roomCode, then check for invalid characters and ensure length is exactly 4
   const joinRoom = (e) => {
     e.preventDefault();
     // trim whitespace
@@ -56,11 +69,14 @@ const Home = ({ setRoomCode }) => {
     }
   };
 
-  return (
+  return showPlayNowMenu ? (
     <main className="wrapper">
       <div className="btnContainer">
-        <Link className="button" to="/lobby" onClick={generateRoomCode}>
-          Host Game
+        <Link className="button" to="/lobby" onClick={startHotSeatGame}>
+          Local: Hot Seat
+        </Link>
+        <Link className="button" to="/lobby" onClick={startOnlineGame}>
+          Online: Host Game
         </Link>
         <form className="roomCodeForm" onSubmit={joinRoom}>
           <label className="sr-only" htmlFor="joinRoomInput">
@@ -79,6 +95,20 @@ const Home = ({ setRoomCode }) => {
             Join Room
           </button>
         </form>
+      </div>
+    </main>
+  ) : (
+    <main className="wrapper">
+      <div className="btnContainer">
+        <button
+          className="button"
+          onClick={() => {
+            setShowPlayNowMenu(true);
+          }}
+        >
+          Play Now
+        </button>
+
         <button className="button" onClick={showInstructions}>
           Instructions
         </button>
