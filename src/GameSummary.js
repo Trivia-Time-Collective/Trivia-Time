@@ -2,10 +2,10 @@ import { Link, useLocation } from 'react-router-dom';
 import firebase from './firebaseConfig.js';
 import { useEffect, useState } from 'react';
 
-const GameSummary = ({ listOfUsers, roomCode }) => {
+const GameSummary = () => {
   const [isAddedToFB, setIsAddedToFB] = useState(false);
   const location = useLocation();
-  const { triviaCategory, triviaDifficulty } = location.state;
+  const { triviaCategory, triviaDifficulty, listOfUsers, roomCode } = location.state;
 
   const removeRoom = () => {
     const roomRef = firebase.database().ref(`sessions/${roomCode}`);

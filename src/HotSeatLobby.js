@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 import firebase from './firebaseConfig.js';
@@ -6,9 +6,10 @@ import firebase from './firebaseConfig.js';
 import User from './User.js';
 import TriviaOptionsForm from './TriviaOptionsForm';
 
-const Lobby = ({ listOfUsers, roomCode }) => {
+const Lobby = () => {
+  const [listOfUsers, setListOfUsers] = useState([]);
   const [usernameInput, setUsernameInput] = useState('');
-  const roomRef = firebase.database().ref(`sessions/${roomCode}`);
+  const roomRef = firebase.database().ref(`hotseat`);
 
   const removeUser = (userKeyToDelete) => {
     roomRef.child(userKeyToDelete).remove();
@@ -37,6 +38,26 @@ const Lobby = ({ listOfUsers, roomCode }) => {
     }
     setUsernameInput('');
   };
+
+  // Access Firebase to update userList regularly
+  useEffect(() => {
+    const dbRef = firebase.database().ref(`hotseat`);
+
+    dbRef.on('value', (snapshot) => {
+      const myData = snapshot.val();
+      const newArray = [];
+      for (let objKey in myData) {
+        const userObj = {
+          key: objKey,
+          username: myData[objKey].username,
+          points: myData[objKey].points,
+          avatarImg: myData[objKey].avatarImg,
+        };
+        newArray.push(userObj);
+      }
+      setListOfUsers(newArray);
+    });
+  }, []);
 
   return (
     <main className="wrapper lobbyContainer">

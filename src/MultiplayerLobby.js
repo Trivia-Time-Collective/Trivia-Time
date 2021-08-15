@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import firebase from './firebaseConfig.js';
 
 import User from './User.js';
 import TriviaOptionsForm from './TriviaOptionsForm';
 
-const Lobby = ({ listOfUsers, roomCode }) => {
+const Lobby = () => {
+  const [listOfUsers, setListOfUsers] = useState([]);
   const [showAddUserField, setShowAddUserField] = useState(true);
   const [usernameInput, setUsernameInput] = useState('');
   const [userRef, setUserRef] = useState('');
   const location = useLocation();
+  const { roomCode } = useParams();
+  console.log(roomCode);
 
   const roomRef = firebase.database().ref(`sessions/${roomCode}`);
 
@@ -30,6 +33,28 @@ const Lobby = ({ listOfUsers, roomCode }) => {
     });
     setShowAddUserField(false);
   };
+
+  // Access Firebase to update userList regularly
+  useEffect(() => {
+    if (roomCode !== '') {
+      const dbRef = firebase.database().ref(`sessions/${roomCode}`);
+
+      dbRef.on('value', (snapshot) => {
+        const myData = snapshot.val();
+        const newArray = [];
+        for (let objKey in myData) {
+          const userObj = {
+            key: objKey,
+            username: myData[objKey].username,
+            points: myData[objKey].points,
+            avatarImg: myData[objKey].avatarImg,
+          };
+          newArray.push(userObj);
+        }
+        setListOfUsers(newArray);
+      });
+    }
+  }, [roomCode]);
 
   // On page load, Set a user object on Firebase with a default username.
   useEffect(() => {
@@ -95,7 +120,7 @@ const Lobby = ({ listOfUsers, roomCode }) => {
         <h3>Select your Trivia Options</h3>
         <div className="optionsTitleBorder"></div>
       </div>
-      <TriviaOptionsForm listOfUsers={listOfUsers} />
+      <TriviaOptionsForm listOfUsers={listOfUsers} roomCode={roomCode} />
     </main>
   );
 };

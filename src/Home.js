@@ -3,7 +3,7 @@ import { useState } from 'react';
 import swal from 'sweetalert';
 import firebase from './firebaseConfig.js';
 
-const Home = ({ setRoomCode, setIsOnlineMultiplayer }) => {
+const Home = ({ setIsOnlineMultiplayer }) => {
   const [joinRoomCode, setJoinRoomCode] = useState('');
   const [showPlayNowMenu, setShowPlayNowMenu] = useState(false);
   const history = useHistory();
@@ -30,23 +30,22 @@ const Home = ({ setRoomCode, setIsOnlineMultiplayer }) => {
   // Function to start a local hot seat game
   const startHotSeatGame = () => {
     setIsOnlineMultiplayer(false);
-    generateRoomCode();
   };
 
   // Function to start hosting an online session
   const startOnlineGame = () => {
     setIsOnlineMultiplayer(true);
-    generateRoomCode();
-  };
-
-  // Generates a new 4-digit room code
-  const generateRoomCode = () => {
+    // Generates a new 4-digit room code
     let randomRoomCode = '';
     for (let i = 0; i < 4; i++) {
       const randomIdx = Math.floor(Math.random() * hexArray.length);
       randomRoomCode += hexArray[randomIdx];
     }
-    setRoomCode(randomRoomCode);
+    // Forward to new Lobby
+    history.push({
+      pathname: `${randomRoomCode}/lobby`,
+      state: { isHost: true },
+    });
   };
 
   // Remove any whitespace from roomCode, then check for invalid characters and ensure length is exactly 4
@@ -70,10 +69,9 @@ const Home = ({ setRoomCode, setIsOnlineMultiplayer }) => {
           if (snapshot.val() === null) {
             throw new Error('This room does not exist');
           }
-          setRoomCode(processedRoomCode);
           setIsOnlineMultiplayer(true);
           history.push({
-            pathname: '/lobby',
+            pathname: `${processedRoomCode}/lobby`,
             state: {
               isHost: false,
             },
@@ -95,9 +93,9 @@ const Home = ({ setRoomCode, setIsOnlineMultiplayer }) => {
         <Link className="button" to="/lobby" onClick={startHotSeatGame}>
           Local: Hot Seat
         </Link>
-        <Link className="button" to={{ pathname: '/lobby', state: { isHost: true } }} onClick={startOnlineGame}>
+        <button className="button" onClick={startOnlineGame}>
           Online: Host Game
-        </Link>
+        </button>
         <form className="roomCodeForm" onSubmit={joinRoom}>
           <label className="sr-only" htmlFor="joinRoomInput">
             Enter 4-digit Room Code:

@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import swal from 'sweetalert';
 import firebase from './firebaseConfig.js';
 import TriviaQuestion from './TriviaQuestion.js';
 
-const Game = ({ listOfUsers, roomCode }) => {
+const Game = () => {
   const [roundCounter, setRoundCounter] = useState(0);
   const [turnCounter, setTurnCounter] = useState(0);
   const [answer, setAnswer] = useState([]);
   const [score, setScore] = useState(0);
   const [showTimer, setShowTimer] = useState(true);
   const location = useLocation();
-  const { questionsArray } = location.state;
+  const { questionsArray, listOfUsers } = location.state;
+  const { roomCode } = useParams();
 
   const history = useHistory();
   // Get Firebase reference to points value for current user
@@ -48,6 +49,8 @@ const Game = ({ listOfUsers, roomCode }) => {
         history.push({
           pathname: '/gamesummary',
           state: {
+            roomCode: roomCode,
+            listOfUsers: listOfUsers,
             triviaDifficulty: location.state.triviaDifficulty,
             triviaCategory: location.state.triviaCategory,
           },

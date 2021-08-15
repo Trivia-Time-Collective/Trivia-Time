@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert';
 
-const TriviaOptionsForm = ({ listOfUsers }) => {
+const TriviaOptionsForm = ({ listOfUsers, roomCode }) => {
   const [triviaCategory, setTriviaCategory] = useState('placeholder');
   const [triviaDifficulty, setTriviaDifficulty] = useState('easy');
   const [triviaQuestionType, setTriviaQuestionType] = useState('multiple');
@@ -55,8 +55,9 @@ const TriviaOptionsForm = ({ listOfUsers }) => {
           } else {
             // since e.preventDefault has been executed, use useHistory to forward to next page
             history.push({
-              pathname: '/game',
+              pathname: `${roomCode}/game`,
               state: {
+                listOfUsers: listOfUsers,
                 questionsArray: res.data.results,
                 triviaDifficulty: triviaDifficulty,
                 triviaCategory: triviaCategory,
