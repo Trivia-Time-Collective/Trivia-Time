@@ -2,7 +2,8 @@ import './scss/styles.scss';
 import firebase from './firebaseConfig.js';
 
 import Home from './Home';
-import Lobby from './Lobby';
+import HotSeatLobby from './HotSeatLobby';
+import MultiplayerLobby from './MultiplayerLobby';
 import Game from './Game';
 import GameSummary from './GameSummary';
 import Leaderboard from './Leaderboard';
@@ -44,7 +45,16 @@ function App() {
       </header>
 
       <Route exact path="/" render={() => <Home setRoomCode={setRoomCode} setIsOnlineMultiplayer={setIsOnlineMultiplayer} />} />
-      <Route path="/lobby" render={() => <Lobby listOfUsers={listOfUsers} roomCode={roomCode} isOnlineMultiplayer={isOnlineMultiplayer} />} />
+      <Route
+        path="/lobby"
+        render={() =>
+          isOnlineMultiplayer ? (
+            <MultiplayerLobby listOfUsers={listOfUsers} roomCode={roomCode} />
+          ) : (
+            <HotSeatLobby listOfUsers={listOfUsers} roomCode={roomCode} />
+          )
+        }
+      />
       <Route path="/game" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} />} />
       <Route path="/gamesummary" render={() => <GameSummary listOfUsers={listOfUsers} roomCode={roomCode} />} />
       <Route path="/leaderboard" render={() => <Leaderboard />} />
