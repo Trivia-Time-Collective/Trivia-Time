@@ -12,7 +12,7 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [listOfUsers, setListOfUsers] = useState([]);
-  const [questionsArray, setQuestionsArray] = useState([]);
+
   const [triviaCategory, setTriviaCategory] = useState('placeholder');
   const [triviaDifficulty, setTriviaDifficulty] = useState('easy');
   const [roomCode, setRoomCode] = useState('');
@@ -53,7 +53,6 @@ function App() {
           <Lobby
             listOfUsers={listOfUsers}
             roomCode={roomCode}
-            setQuestionsArray={setQuestionsArray}
             triviaCategory={triviaCategory}
             setTriviaCategory={setTriviaCategory}
             triviaDifficulty={triviaDifficulty}
@@ -62,7 +61,7 @@ function App() {
           />
         )}
       />
-      <Route path="/game" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} questionsArray={questionsArray} />} />
+      <Route path="/game" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} />} />
       <Route
         path="/gamesummary"
         render={() => <GameSummary listOfUsers={listOfUsers} roomCode={roomCode} triviaDifficulty={triviaDifficulty} triviaCategory={triviaCategory} />}
