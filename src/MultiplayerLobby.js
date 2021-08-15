@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import firebase from './firebaseConfig.js';
 
 import User from './User.js';
@@ -9,6 +9,7 @@ const Lobby = ({ listOfUsers, roomCode }) => {
   const [showAddUserField, setShowAddUserField] = useState(true);
   const [usernameInput, setUsernameInput] = useState('');
   const [userRef, setUserRef] = useState('');
+  const location = useLocation();
 
   const roomRef = firebase.database().ref(`sessions/${roomCode}`);
 
@@ -32,14 +33,20 @@ const Lobby = ({ listOfUsers, roomCode }) => {
 
   // On page load, Set a user object on Firebase with a default username.
   useEffect(() => {
+    // Create new user object
     const newUser = {};
     newUser.username = 'TriviaBuff';
     newUser.points = 0;
     newUser.avatarImg = `https://robohash.org/TriviaBuff`;
     newUser.isTurnComplete = false;
+    newUser.isHost = location.state.isHost;
+
+    // Add user to Firebase session
     const newUserRef = firebase.database().ref(`sessions/${roomCode}`).push(newUser);
+    // Create an onDisconnect handler
+    newUserRef.onDisconnect().remove();
     setUserRef(newUserRef);
-  }, [roomCode]);
+  }, [location.state.isHost, roomCode]);
 
   return (
     <main className="wrapper lobbyContainer">

@@ -72,7 +72,12 @@ const Home = ({ setRoomCode, setIsOnlineMultiplayer }) => {
           }
           setRoomCode(processedRoomCode);
           setIsOnlineMultiplayer(true);
-          history.push('/lobby');
+          history.push({
+            pathname: '/lobby',
+            state: {
+              isHost: false,
+            },
+          });
         })
         .catch((error) => {
           swal('Room not found', error.message, 'warning');
@@ -90,7 +95,7 @@ const Home = ({ setRoomCode, setIsOnlineMultiplayer }) => {
         <Link className="button" to="/lobby" onClick={startHotSeatGame}>
           Local: Hot Seat
         </Link>
-        <Link className="button" to="/lobby" onClick={startOnlineGame}>
+        <Link className="button" to={{ pathname: '/lobby', state: { isHost: true } }} onClick={startOnlineGame}>
           Online: Host Game
         </Link>
         <form className="roomCodeForm" onSubmit={joinRoom}>
