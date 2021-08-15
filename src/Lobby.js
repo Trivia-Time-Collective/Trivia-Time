@@ -6,11 +6,10 @@ import firebase from './firebaseConfig.js';
 import User from './User.js';
 import TriviaOptionsForm from './TriviaOptionsForm';
 
-const Lobby = ({ listOfUsers, roomCode, triviaCategory, setTriviaCategory, triviaDifficulty, setTriviaDifficulty, isOnlineMultiplayer }) => {
+const Lobby = ({ listOfUsers, roomCode, isOnlineMultiplayer }) => {
   const [showAddUserField, setShowAddUserField] = useState(true);
   const [usernameInput, setUsernameInput] = useState('');
   const [userRef, setUserRef] = useState('');
-  const [triviaQuestionType, setTriviaQuestionType] = useState('multiple');
 
   const roomRef = firebase.database().ref(`sessions/${roomCode}`);
 
@@ -124,15 +123,7 @@ const Lobby = ({ listOfUsers, roomCode, triviaCategory, setTriviaCategory, trivi
         <h3>Select your Trivia Options</h3>
         <div className="optionsTitleBorder"></div>
       </div>
-      <TriviaOptionsForm
-        triviaCategory={triviaCategory}
-        setTriviaCategory={setTriviaCategory}
-        triviaDifficulty={triviaDifficulty}
-        setTriviaDifficulty={setTriviaDifficulty}
-        triviaQuestionType={triviaQuestionType}
-        setTriviaQuestionType={setTriviaQuestionType}
-        listOfUsers={listOfUsers}
-      />
+      <TriviaOptionsForm listOfUsers={listOfUsers} />
       {/* <div className="linkContainer">
         <Link to={`/game`} onClick={loadTriviaQuestions} className="formButton">
           Start Game

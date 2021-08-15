@@ -45,7 +45,13 @@ const Game = ({ listOfUsers, roomCode }) => {
         setTurnCounter(turnCounter + 1);
       } else {
         // redirects Router to GameSummary.js
-        history.push('/gamesummary');
+        history.push({
+          pathname: '/gamesummary',
+          state: {
+            triviaDifficulty: location.state.triviaDifficulty,
+            triviaCategory: location.state.triviaCategory,
+          },
+        });
       }
     }
   };

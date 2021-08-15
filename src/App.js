@@ -12,9 +12,6 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [listOfUsers, setListOfUsers] = useState([]);
-
-  const [triviaCategory, setTriviaCategory] = useState('placeholder');
-  const [triviaDifficulty, setTriviaDifficulty] = useState('easy');
   const [roomCode, setRoomCode] = useState('');
   const [isOnlineMultiplayer, setIsOnlineMultiplayer] = useState(false);
 
@@ -47,25 +44,9 @@ function App() {
       </header>
 
       <Route exact path="/" render={() => <Home setRoomCode={setRoomCode} setIsOnlineMultiplayer={setIsOnlineMultiplayer} />} />
-      <Route
-        path="/lobby"
-        render={() => (
-          <Lobby
-            listOfUsers={listOfUsers}
-            roomCode={roomCode}
-            triviaCategory={triviaCategory}
-            setTriviaCategory={setTriviaCategory}
-            triviaDifficulty={triviaDifficulty}
-            setTriviaDifficulty={setTriviaDifficulty}
-            isOnlineMultiplayer={isOnlineMultiplayer}
-          />
-        )}
-      />
+      <Route path="/lobby" render={() => <Lobby listOfUsers={listOfUsers} roomCode={roomCode} isOnlineMultiplayer={isOnlineMultiplayer} />} />
       <Route path="/game" render={() => <Game listOfUsers={listOfUsers} roomCode={roomCode} />} />
-      <Route
-        path="/gamesummary"
-        render={() => <GameSummary listOfUsers={listOfUsers} roomCode={roomCode} triviaDifficulty={triviaDifficulty} triviaCategory={triviaCategory} />}
-      />
+      <Route path="/gamesummary" render={() => <GameSummary listOfUsers={listOfUsers} roomCode={roomCode} />} />
       <Route path="/leaderboard" render={() => <Leaderboard />} />
 
       <footer>

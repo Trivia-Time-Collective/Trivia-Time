@@ -1,17 +1,13 @@
 import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
 
 import axios from 'axios';
 import swal from 'sweetalert';
 
-const TriviaOptionsForm = ({
-  triviaCategory,
-  setTriviaCategory,
-  triviaDifficulty,
-  setTriviaDifficulty,
-  triviaQuestionType,
-  setTriviaQuestionType,
-  listOfUsers,
-}) => {
+const TriviaOptionsForm = ({ listOfUsers }) => {
+  const [triviaCategory, setTriviaCategory] = useState('placeholder');
+  const [triviaDifficulty, setTriviaDifficulty] = useState('easy');
+  const [triviaQuestionType, setTriviaQuestionType] = useState('multiple');
   const history = useHistory();
 
   // Before making axios call, check if all form categories have been completed or selected
@@ -62,6 +58,8 @@ const TriviaOptionsForm = ({
               pathname: '/game',
               state: {
                 questionsArray: res.data.results,
+                triviaDifficulty: triviaDifficulty,
+                triviaCategory: triviaCategory,
               },
             });
           }
