@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 
-const User = ({ userObj, index, removeUser }) => {
+const User = ({ userObj, removeUser }) => {
   const handleKeyDown = (e) => {
     if (e.key.toLowerCase() === 'delete') {
       removeUser(userObj.key);

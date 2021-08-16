@@ -18,20 +18,21 @@
     border-radius: 5px;
     padding: 8px 0;
   }
-  button {
-    border: none;
-    white-space: nowrap;
-    font-size: 2rem;
-    color: $white;
-    font-family: $body-font;
-    margin: 5px;
-    padding: 8px 12px;
-    border-radius: 10px;
-    background-color: $turquoise;
-  }
   h3 {
     margin: 0 10px;
   }
+}
+
+.turquoiseButton {
+  border: none;
+  white-space: nowrap;
+  font-size: 2rem;
+  color: $white;
+  font-family: $body-font;
+  margin: 5px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background-color: $turquoise;
 }
 
 input:focus,
@@ -66,6 +67,7 @@ select:focus {
   flex-direction: column;
   width: 100%;
   max-width: 600px;
+  margin-bottom: 50px;
 }
 
 .formButton {
@@ -131,8 +133,17 @@ select:focus {
     transform: translateX(-50%);
     font-size: 3rem;
     line-height: 2rem;
-    color: $turquoise;
+
     cursor: pointer;
+  }
+
+  .userReady {
+    position: absolute;
+    bottom: 0;
+    right: 3px;
+    font-size: 3rem;
+    line-height: 3rem;
+    color: $turquoise;
   }
 
   .removeUser:hover,

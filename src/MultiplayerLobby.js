@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import firebase from './firebaseConfig.js';
 
-import User from './User.js';
+import MultiplayerUser from './MultiplayerUser.js';
 import TriviaOptionsForm from './TriviaOptionsForm';
 
 const Lobby = () => {
@@ -13,12 +13,7 @@ const Lobby = () => {
   const location = useLocation();
   const { roomCode } = useParams();
   console.log(roomCode);
-
-  const roomRef = firebase.database().ref(`sessions/${roomCode}`);
-
-  const removeUser = (userKeyToDelete) => {
-    roomRef.child(userKeyToDelete).remove();
-  };
+  console.log(location.state);
 
   const resetUserField = () => {
     setUsernameInput('');
@@ -32,6 +27,12 @@ const Lobby = () => {
       username: usernameInput,
     });
     setShowAddUserField(false);
+  };
+
+  const playerReady = () => {
+    userRef.update({
+      isReady: true,
+    });
   };
 
   // Access Firebase to update userList regularly
@@ -48,6 +49,8 @@ const Lobby = () => {
             username: myData[objKey].username,
             points: myData[objKey].points,
             avatarImg: myData[objKey].avatarImg,
+            isTurnComplete: myData[objKey].isTurnComplete,
+            isReady: myData[objKey].isReady,
           };
           newArray.push(userObj);
         }
@@ -64,6 +67,7 @@ const Lobby = () => {
     newUser.points = 0;
     newUser.avatarImg = `https://robohash.org/TriviaBuff`;
     newUser.isTurnComplete = false;
+    newUser.isReady = false;
     newUser.isHost = location.state.isHost;
 
     // Add user to Firebase session
@@ -111,10 +115,13 @@ const Lobby = () => {
       <div className="contestantsContainer">
         <ul className="userProfileList">
           {listOfUsers.map((userObj, index) => {
-            return <User userObj={userObj} index={index} removeUser={removeUser} key={index} />;
+            return <MultiplayerUser userObj={userObj} key={index} />;
           })}
         </ul>
       </div>
+      <button className="turquoiseButton" onClick={playerReady}>
+        Ready Up
+      </button>
       <div className="optionsTitleContainer">
         <div className="optionsTitleBorder"></div>
         <h3>Select your Trivia Options</h3>
