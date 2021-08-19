@@ -12,6 +12,7 @@ const Game = () => {
   const [showTimer, setShowTimer] = useState(true);
   const location = useLocation();
   const { questionsArray, listOfUsers } = location.state;
+  console.log(location);
   const { roomCode } = useParams();
 
   const history = useHistory();

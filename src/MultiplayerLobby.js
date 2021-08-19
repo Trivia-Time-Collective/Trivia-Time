@@ -13,7 +13,7 @@ const Lobby = () => {
   const location = useLocation();
   const { roomCode } = useParams();
   console.log(roomCode);
-  console.log(location.state);
+  console.log(location);
 
   const resetUserField = () => {
     setUsernameInput('');
