@@ -20,9 +20,7 @@ function App() {
       </header>
 
       <Route exact path="/" render={() => <Home setIsOnlineMultiplayer={setIsOnlineMultiplayer} />} />
-
       {isOnlineMultiplayer ? <Route path="/:roomCode/lobby" component={MultiplayerLobby} /> : <Route path="/lobby" component={HotSeatLobby} />}
-
       <Route path=":roomCode/game" component={Game} />
       <Route path="/gamesummary" component={GameSummary} />
       <Route path="/leaderboard" component={Leaderboard} />
